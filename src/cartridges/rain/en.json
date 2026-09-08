@@ -1,0 +1,6 @@
+{
+  "rain.type": "type a falling word",
+  "rain.souvenir": "you zapped {list}!",
+  "rain.souvenir.none": "the words are still falling — type one to zap it!",
+  "rain.souvenir.more": "more"
+}

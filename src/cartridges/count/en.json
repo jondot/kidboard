@@ -1,0 +1,23 @@
+{
+  "count.ask": "how many?",
+  "count.howto": "tell me a number, like 3",
+  "count.yes": "yes! that's exactly how many!",
+  "count.more": "want another group? type more!",
+  "count.next": "here comes another group!",
+  "count.again": "let's count them together, one by one",
+  "count.again.b": "here they are in a row — count along with your finger",
+  "count.answer": "how many",
+  "count.souvenir": "you counted {list}!",
+  "count.souvenir.none": "nothing counted yet — the little groups are still waiting!",
+  "count.souvenir.more": "more",
+  "count.name.duck": "the ducks",
+  "count.name.star": "the stars",
+  "count.name.apple": "the apples",
+  "count.name.cat": "the cats",
+  "count.name.balloon": "the balloons",
+  "count.name.fish": "the fish",
+  "count.name.flower": "the flowers",
+  "count.name.car": "the cars",
+  "count.name.frog": "the frogs",
+  "count.name.cookie": "the cookies"
+}

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# omarchy:summary=Open Kidboard wearing the desktop's own theme
+
+# WHY A HANDLER AND NOT A PLAIN URL. Omarchy's web-app launchers are static
+# `.desktop` files, and a static URL can only carry the theme that was current
+# on the day it was installed. This runs at every launch, so the console comes
+# up in whatever palette the machine is wearing right now.
+#
+# No translating is needed: the name Omarchy stores IS a Kidboard theme id.
+# Kidboard ships Omarchy's own 22 `colors.toml` files under Omarchy's own
+# names (`src/theme/gallery/`), so there is no mapping table to drift.
+#
+# THE NAME IS LOAD-BEARING. `omarchy-webapp-remove` indexes launchers by
+# grepping `^Exec=.*\(omarchy-launch-webapp\|omarchy-webapp-handler\).*`, so a
+# handler named anything else would install fine and then be invisible to
+# Remove > Web App. This follows `omarchy-webapp-handler-hey` exactly.
+#
+# An unset or unreadable theme file yields `?theme=`, which Kidboard reads as
+# "this is Omarchy, palette unknown" and answers with the machine's default.
+
+theme=$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)
+
+exec omarchy-launch-webapp "https://kidboard-app.vercel.app/?system=omarchy&theme=$theme"

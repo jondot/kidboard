@@ -1,0 +1,9 @@
+{
+  "sokoban.push": "לדחוף",
+  "sokoban.undo": "לחזור אחורה",
+  "sokoban.souvenir.none": "הארגזים עדיין במקום שמצאתם אותם — כל החדרים מחכים!",
+  "sokoban.souvenir.pushed": "הזזתם ארגז. ככה כל חדר מתחיל.",
+  "sokoban.souvenir.some": "הבאתם את הארגזים הביתה! החדרים נעשים מסובכים.",
+  "sokoban.souvenir.far": "חדר אחרי חדר, ארגז אחרי ארגז. אתם ממש טובים בזה.",
+  "sokoban.souvenir.all": "כל חדר וחדר, עד האחרון. מדהים!"
+}

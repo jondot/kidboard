@@ -1,0 +1,38 @@
+# kid code · dark — the terminal this was written in.
+#
+# The ground is not grey — it is a warm near-black, set with ivory text. The
+# orange accent is the only saturated thing anywhere, which is already the
+# monochrome rule, so nothing here fights the games.
+mode = "dark"
+
+accent = "#d97757"
+selection = "#30302e"
+muted = "#6f6e69"
+
+background = "#262624"
+dark_background = "#1f1e1d"
+darker_background = "#191918"
+lighter_background = "#30302e"
+
+foreground = "#f0eee6"
+dark_foreground = "#b0aea4"
+light_foreground = "#faf9f5"
+bright_foreground = "#ffffff"
+
+red = "#d97757"
+yellow = "#e0d5c0"
+orange = "#d97757"
+green = "#c8d0b8"
+cyan = "#b9c4c4"
+blue = "#b4bece"
+magenta = "#cbbcc9"
+brown = "#8a7f70"
+
+bright_red = "#e88b6b"
+bright_yellow = "#efe6d5"
+bright_orange = "#e88b6b"
+bright_green = "#d8dfcc"
+bright_cyan = "#cbd4d4"
+bright_blue = "#c7cfdc"
+bright_magenta = "#ddd0da"
+bright_brown = "#a29684"

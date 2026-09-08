@@ -1,0 +1,8 @@
+{
+  "climb.walk": "run",
+  "climb.ladder": "climb",
+  "climb.jump": "jump",
+  "climb.souvenir.none": "your friend is still up at the top, and you are still down at the bottom!",
+  "climb.souvenir.up": "you got up a ladder and past the barrels. that is the hard bit.",
+  "climb.souvenir.home": "all the way to the top! your friend was very pleased to see you."
+}

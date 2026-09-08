@@ -1,0 +1,10 @@
+{
+  "drum.play": "להקיש על תוף",
+  "drum.loop": "להקליט לולאה",
+  "drum.souvenir": "הקצב שלכם עשה {beat}",
+  "drum.souvenir.none": "התופים חמים ומחכים לכם!",
+  "drum.sound.kick": "בום",
+  "drum.sound.snare": "טאק",
+  "drum.sound.hat": "צס",
+  "drum.sound.clap": "פאח"
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kidboard</title>
+    <!-- An empty data: icon: the terminal is the whole page, and a 404 in
+         the console is noise a contributor should not have to explain. -->
+    <link rel="icon" href="data:," />
+    <!-- The demo page, not the library. Kidboard themes itself and never the
+         host page, so this ground is deliberately neutral and stays put while
+         the terminal inside it changes theme. -->
+    <style>
+      html, body { margin: 0; height: 100%; background: #100f18; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

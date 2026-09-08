@@ -1,0 +1,201 @@
+/* ---- the omarchy machine -------------------------------------------------
+ *
+ * Owned by the omarchy shell (`src/systems/shells/omarchy.tsx`). Imported from
+ * `src/styles.css`, so Kidboard is still ONE stylesheet to an embedder.
+ *
+ * Logical properties only — `margin-inline-start`, never `margin-left`. The
+ * playground reads right-to-left in Hebrew and a physical direction is a bug
+ * there; `chrome.invariants.test.ts` enforces this across every sheet.
+ *
+ * EVERY COLOUR IS A `--kb-*` CUSTOM PROPERTY. There are 22 palettes on this
+ * machine and it has to be all of them: anything hard-coded to magenta is
+ * wrong in `everforest` and wrong in `white`. `omarchy.test.tsx` greps this
+ * file for a literal colour and fails on one.
+ *
+ * ONE WINDOW OR TWO, NEVER A PANE. A game opening is a second window: the
+ * compositor tiles the two of them, each keeps its own border and title bar,
+ * and the focused one wears the accent. ESC closes the game window and the
+ * terminal goes fullscreen again. See the note at the top of `omarchy.tsx`.
+ *
+ * TWO WHOLE SECTIONS ARE GONE FROM THIS FILE.
+ *
+ * THE WALLPAPER — a CSS synthwave horizon: a perspective wireframe grid
+ * running to a horizon line, a glowing disc of sun sitting on it, and an
+ * opt-in animation drifting the grid toward the viewer. Two hundred lines of
+ * scenery invented for a project that is not a retrowave album cover; Omarchy
+ * is a Linux setup, and its identity is its palettes, which are right here
+ * already. It was also drawn under every line of a six-year-old's reading.
+ *
+ * THE POWERLINE STATUS BAR — five angled segments along the foot naming the
+ * machine, the palette, the language, the sound and the running game's keys,
+ * with a whole tint ramp and a mirrored `clip-path` for Hebrew. The first four
+ * are answered by the settings menu whenever a child asks; the fifth belongs
+ * on the pane the game is actually running in, which is where it went.
+ *
+ * What remains is the compositor and the two windows it tiles.
+ */
+
+/**
+ * THE COMPOSITOR. One window, or two tiled — never a pane inside a window.
+ *
+ * `dwindle` splits along the LONGER AXIS, so this does too: side by side in a
+ * wide playground, stacked in a tall one. A container query rather than a
+ * media query, because Kidboard is embeddable and the host may have given it a
+ * column of a page rather than a browser window — the question is how wide
+ * THIS is, never how wide the screen is.
+ */
+/*
+ * THE COMPOSITOR'S SCREEN is the query container, and `.kb-omarchy-tiles`
+ * inside it is what the query lays out. They have to be two elements: a
+ * container query styles DESCENDANTS of the container, never the container
+ * itself, so a single box asking about its own width matches nothing and
+ * silently stays in its default direction — which it did, stacking two windows
+ * in a 1200px window.
+ */
+.kb-omarchy {
+  container-type: inline-size;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.kb-omarchy-tiles {
+  display: flex;
+  gap: 0.375rem;
+  padding: 0.375rem;
+  block-size: 100%;
+  min-block-size: 0;
+  /* Stacked by default: the narrow case is the one that must never break. */
+  flex-direction: column;
+}
+
+@container (min-width: 52rem) {
+  .kb-omarchy-tiles[data-kb-tiled="true"] { flex-direction: row; }
+}
+
+/**
+ * A WINDOW. Both of them: same border, same radius, same title bar, same
+ * everything — which is the entire point. A compositor does not give the
+ * terminal one kind of frame and the game another.
+ *
+ * `flex: 1 1 0` with `min-*: 0` is what makes two windows share the space
+ * evenly and neither one push the other off the screen. `overflow: hidden` so
+ * a game inside can never paint over its own frame.
+ */
+.kb-omarchy-tile {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--kb-bg);
+  border: 1px solid var(--kb-border);
+  border-radius: 6px;
+}
+
+/**
+ * THE FOCUSED WINDOW WEARS THE ACCENT, which is the one thing every compositor
+ * on earth draws and the only way a child can tell which window their keys are
+ * going to. The game window is focused whenever there is a game — a running
+ * cartridge owns every key, so that is a statement of fact, not a decoration.
+ *
+ * The UNFOCUSED one is held back rather than merely left alone: on several of
+ * the 22 palettes the border tone and the accent are neighbours, and two
+ * windows edged in near-enough the same colour say nothing at all.
+ */
+.kb-omarchy-tile { opacity: 0.82; }
+
+.kb-omarchy-tile:has([data-kb-focused="true"]) {
+  border-color: var(--kb-accent);
+  opacity: 1;
+}
+
+/**
+ * A TITLE BAR, and the same one on both windows: the window's name at the
+ * reading edge, then whatever it has to say about itself — which for the game
+ * window is its keys (`helpAt: 'paneTitle'`).
+ *
+ * It never sets a direction of its own. Under Hebrew it starts from the other
+ * end along with the rest of the frame, and only the key glyphs stay LTR
+ * because `← →` is a picture of two keys rather than prose.
+ */
+.kb-omarchy-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: none;
+  padding-inline: 0.625rem;
+  padding-block: 0.1875rem;
+  border-block-end: 1px solid var(--kb-border);
+  background: var(--kb-surface);
+  color: var(--kb-dim);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+/* The name of the focused window is in the accent, like its border. */
+.kb-omarchy-title[data-kb-focused="true"] { color: var(--kb-accent); }
+
+.kb-omarchy-pane-name {
+  flex: none;
+  font-weight: 700;
+}
+
+.kb-omarchy-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.75rem;
+  min-inline-size: 0;
+  color: var(--kb-dim);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.kb-omarchy-hint { display: inline-flex; align-items: center; gap: 0.3125rem; }
+
+.kb-omarchy-key { color: var(--kb-accent); font-weight: 700; }
+
+/* Everything under a title bar: the terminal's transcript, the game's canvas. */
+.kb-omarchy-body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+
+.kb-omarchy-game {
+  position: relative;
+  overflow: hidden;
+  padding: 0.75rem;
+}
+
+/*
+ * A canvas is a replaced element, so it can be told to fit its window and
+ * letterbox rather than have its bottom cropped off — which is what a game
+ * sized from its container's WIDTH does in any window that is not tall enough
+ * for it.
+ *
+ * It is taken out of flow to do that: a percentage cap only resolves against a
+ * definite height, and the tile's own share of the screen is the definite
+ * height here. `GameCanvas` measures its own wrapper, which stays in flow at
+ * the window's full width, so the grid a game is handed is unchanged.
+ */
+.kb-omarchy-game canvas {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+}
+
+/* ---- this machine's game picker ----------------------------------------
+ *
+ * A tiling compositor's own popup: square-ish corners at the window's radius,
+ * a thin accent border like a focused window's, no shadow plate. */
+[data-kb-system="omarchy"] .kb-picker {
+  border: 1px solid var(--kb-accent);
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+[data-kb-system="omarchy"] .kb-menu { border-radius: 6px; box-shadow: none; }

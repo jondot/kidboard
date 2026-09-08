@@ -1,0 +1,5 @@
+{
+  "mole.press": "say hello",
+  "mole.souvenir": "you said hello to {moles}",
+  "mole.souvenir.none": "the moles are still napping in their holes!"
+}

@@ -1,0 +1,13 @@
+{
+  "robot.add": "להוסיף צעד",
+  "robot.run": "להריץ",
+  "robot.undo": "לבטל צעד",
+  "robot.then": "ואז",
+  "robot.dir.up": "למעלה",
+  "robot.dir.down": "למטה",
+  "robot.dir.left": "שמאלה",
+  "robot.dir.right": "ימינה",
+  "robot.souvenir.none": "הרובוט שלכם מחכה לתוכנית!",
+  "robot.souvenir.walk": "הרובוט שלכם הלך {steps}!",
+  "robot.souvenir.star": "הרובוט שלכם הלך {steps} ומצא את הכוכב!"
+}

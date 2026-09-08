@@ -1,0 +1,38 @@
+# kidtari · console black — the machine with the lights off.
+#
+# The TIA's hue 0 is the greyscale column: eight steps from black to near
+# white, and nothing else. This is that column, with the Kidtari logo's orange
+# as the single warm object on the screen — the power light, essentially.
+mode = "dark"
+
+accent = "#e07c1f"
+selection = "#2c2c2c"
+muted = "#6c6c6c"
+
+background = "#101010"
+dark_background = "#000000"
+darker_background = "#000000"
+lighter_background = "#404040"
+
+foreground = "#dcdcdc"
+dark_foreground = "#909090"
+light_foreground = "#ececec"
+bright_foreground = "#ffffff"
+
+red = "#e07c1f"
+yellow = "#c8c8c8"
+orange = "#e07c1f"
+green = "#dcdcdc"
+cyan = "#b0b0b0"
+blue = "#909090"
+magenta = "#ececec"
+brown = "#6c6c6c"
+
+bright_red = "#f5921f"
+bright_yellow = "#dcdcdc"
+bright_orange = "#f5921f"
+bright_green = "#ececec"
+bright_cyan = "#c8c8c8"
+bright_blue = "#b0b0b0"
+bright_magenta = "#ffffff"
+bright_brown = "#909090"

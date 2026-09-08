@@ -1,0 +1,20 @@
+{
+  "spot.ask": "which one is different?",
+  "spot.howto": "tell me which place, like 2",
+  "spot.yes": "you found {name}!",
+  "spot.more": "want another row? type more!",
+  "spot.next": "here comes another row!",
+  "spot.again": "have another look — take your time",
+  "spot.again.b": "keep looking — it is hiding somewhere in that row",
+  "spot.answer": "which place",
+  "spot.souvenir": "you spotted {list}!",
+  "spot.souvenir.none": "nothing spotted yet — the row is still keeping its secret!",
+  "spot.souvenir.more": "more",
+  "spot.name.orange": "the orange",
+  "spot.name.moon": "the moon",
+  "spot.name.dog": "the dog",
+  "spot.name.bus": "the bus",
+  "spot.name.donut": "the donut",
+  "spot.name.stripy": "the stripy fish",
+  "spot.name.purple": "the purple one"
+}

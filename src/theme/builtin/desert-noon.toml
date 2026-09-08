@@ -1,0 +1,40 @@
+# desert noon — Kidboard's light default.
+#
+# The same four relationships at midday. Not a white terminal: the ground is
+# sun-bleached sand paper, the ink is warm brown rather than black, the accent
+# is the same hot coral brought down only as far as legibility demands, and
+# teal is still doing every piece of structural work — borders, rules, chrome
+# text. Squint at this and at `sunset-arcade` and the value structure inverts
+# while the hues stay in the same family.
+mode = "light"
+
+accent = "#b43f0d"
+selection = "#f2e7ca"
+muted = "#466e74"
+
+background = "#f9f0da"
+dark_background = "#f3ead1"
+darker_background = "#dccb9d"
+lighter_background = "#e8dab4"
+
+foreground = "#38302a"
+dark_foreground = "#466e74"
+light_foreground = "#54473c"
+bright_foreground = "#2a231d"
+
+red = "#b23423"
+yellow = "#7a5a0d"
+orange = "#9c5612"
+green = "#3f6c2f"
+cyan = "#0a666d"
+blue = "#28598f"
+magenta = "#93397c"
+brown = "#6b4020"
+
+bright_red = "#96291b"
+bright_yellow = "#664a09"
+bright_orange = "#7d440c"
+bright_green = "#345926"
+bright_cyan = "#08555b"
+bright_blue = "#204a7a"
+bright_magenta = "#7b2f68"

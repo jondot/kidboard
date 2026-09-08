@@ -1,0 +1,14 @@
+{
+  "vehicle.airplane.sound": "WHOOOOSH!",
+  "vehicle.plane.sound": "WHOOOOSH!",
+  "vehicle.truck.sound": "VROOM VROOM!",
+  "vehicle.excavator.sound": "DIG DIG DIG!",
+  "vehicle.rocket.sound": "3... 2... 1... BLAST OFF!",
+  "vehicle.train.sound": "CHOO CHOO!",
+  "vehicle.helicopter.sound": "WHOP WHOP WHOP!",
+  "vehicle.bulldozer.sound": "BEEP BEEP BEEP!",
+  "vehicle.crane.sound": "LIFTING!",
+  "vehicle.boat.sound": "Splashhh!",
+  "vehicle.car.sound": "Beep beep!",
+  "vehicle.bus.sound": "All aboard!"
+}

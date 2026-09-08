@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Kidboard, as an Omarchy web app.
+#
+#   curl -fsSL https://kidboard-app.vercel.app/install | bash
+#
+# All this does is fetch the launcher and hand it to Omarchy's own
+# omarchy-webapp-install. Nothing is written outside ~/.local, nothing needs
+# sudo, and Remove > Web App undoes it.
+
+set -e
+
+SITE="https://kidboard-app.vercel.app"
+HANDLER="$HOME/.local/bin/omarchy-webapp-handler-kidboard"
+
+if ! command -v omarchy-webapp-install >/dev/null 2>&1; then
+  echo "omarchy-webapp-install is not on PATH, so this is not an Omarchy machine."
+  echo "Kidboard needs no installing to play -- it is a web page: $SITE"
+  exit 1
+fi
+
+mkdir -p "$HOME/.local/bin"
+curl -fsSL "$SITE/omarchy-webapp-handler-kidboard" -o "$HANDLER"
+chmod +x "$HANDLER"
+
+# The fourth argument is a custom Exec: the handler reads the desktop's live
+# theme at every launch, which a static URL in a .desktop file cannot do.
+omarchy-webapp-install Kidboard \
+  "$SITE" \
+  "$SITE/apple-touch-icon.png" \
+  "$HANDLER"
+
+echo
+echo "Kidboard is in the app launcher -- Super + Space."
+echo "It wears whatever theme your desktop is wearing. Change the theme,"
+echo "relaunch, and it follows."
+echo
+echo "To remove it: Super + Space -> Remove -> Web App."

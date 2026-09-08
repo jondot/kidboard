@@ -1,0 +1,20 @@
+{
+  "spot.ask": "מי מהם שונה?",
+  "spot.howto": "כתבו איזה מקום, למשל 2",
+  "spot.yes": "מצאתם את {name}!",
+  "spot.more": "רוצים עוד שורה? כתבו עוד!",
+  "spot.next": "הנה עוד שורה!",
+  "spot.again": "הסתכלו עוד פעם — יש כל הזמן שבעולם",
+  "spot.again.b": "המשיכו לחפש — הוא מתחבא שם איפשהו",
+  "spot.answer": "איזה מקום",
+  "spot.souvenir": "גיליתם את {list}!",
+  "spot.souvenir.none": "עוד לא גילינו — השורה עדיין שומרת סוד!",
+  "spot.souvenir.more": "עוד",
+  "spot.name.orange": "התפוז",
+  "spot.name.moon": "הירח",
+  "spot.name.dog": "הכלב",
+  "spot.name.bus": "האוטובוס",
+  "spot.name.donut": "הסופגנייה",
+  "spot.name.stripy": "הדג המפוספס",
+  "spot.name.purple": "הסגול"
+}

@@ -1,0 +1,11 @@
+{
+  "simon.pads": "press a shape",
+  "simon.also": "the same four",
+  "simon.souvenir": "you remembered {shapes}!",
+  "simon.souvenir.none": "the shapes are warming up — watch them dance!",
+  "simon.souvenir.more": "more",
+  "simon.shape.star": "a star",
+  "simon.shape.heart": "a heart",
+  "simon.shape.moon": "a moon",
+  "simon.shape.flower": "a flower"
+}

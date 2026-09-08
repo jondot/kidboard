@@ -1,0 +1,8 @@
+{
+  "ghosts.move": "move",
+  "ghosts.souvenir.none": "every dot is still sitting there, and the ghosts are still going round and round.",
+  "ghosts.souvenir.some": "you went round the maze eating up dots with the ghosts on your tail.",
+  "ghosts.souvenir.big": "you ate one of the big dots and the ghosts went pale and turned tail.",
+  "ghosts.souvenir.chased": "you ate a big dot, and then you ate a ghost. it went home to have a think about it.",
+  "ghosts.souvenir.clear": "not one dot left anywhere in the maze. the whole board, cleared out."
+}

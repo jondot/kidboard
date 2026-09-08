@@ -1,0 +1,10 @@
+{
+  "drum.play": "hit a pad",
+  "drum.loop": "record a loop",
+  "drum.souvenir": "your beat went {beat}",
+  "drum.souvenir.none": "the drums are warm and waiting for you!",
+  "drum.sound.kick": "boom",
+  "drum.sound.snare": "tak",
+  "drum.sound.hat": "tss",
+  "drum.sound.clap": "pah"
+}

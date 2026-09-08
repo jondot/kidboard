@@ -1,0 +1,23 @@
+{
+  "count.ask": "כמה יש?",
+  "count.howto": "כתבו מספר, למשל 3",
+  "count.yes": "כן! בדיוק ככה!",
+  "count.more": "רוצים עוד קבוצה? כתבו עוד!",
+  "count.next": "הנה עוד קבוצה!",
+  "count.again": "בואו נספור אותם ביחד, אחד אחד",
+  "count.again.b": "הנה הם בשורה — ספרו עם האצבע",
+  "count.answer": "כמה יש",
+  "count.souvenir": "ספרתם את {list}!",
+  "count.souvenir.none": "עוד לא ספרנו — הקבוצות הקטנות עדיין מחכות!",
+  "count.souvenir.more": "עוד",
+  "count.name.duck": "הברווזים",
+  "count.name.star": "הכוכבים",
+  "count.name.apple": "התפוחים",
+  "count.name.cat": "החתולים",
+  "count.name.balloon": "הבלונים",
+  "count.name.fish": "הדגים",
+  "count.name.flower": "הפרחים",
+  "count.name.car": "המכוניות",
+  "count.name.frog": "הצפרדעים",
+  "count.name.cookie": "העוגיות"
+}

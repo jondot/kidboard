@@ -1,0 +1,11 @@
+{
+  "story.ask.animal": "תנו לי חיה!",
+  "story.ask.color": "עכשיו צבע!",
+  "story.ask.food": "ועכשיו אוכל!",
+  "story.title": "ה{animal} ה{color} וה{food}",
+  "story.line1": "היה היה פעם {animal} {color}.",
+  "story.line2": "ה{animal} היה כל כך רעב, אז הוא אכל את כל ה{food}.",
+  "story.line3": "ואז הוא נרדם וחלם על עוד {food}. הסוף!",
+  "story.more": "כתבו משהו לעוד סיפור!",
+  "story.answer": "תשובה"
+}

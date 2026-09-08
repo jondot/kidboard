@@ -1,0 +1,39 @@
+# crt · P1 green — the phosphor Logo was actually taught on.
+#
+# P1 is the willemite green of a lab scope and of every terminal in a school
+# computer room. Long persistence: a moved turtle left a trail that faded
+# rather than vanished, which is why the field in this system keeps what was
+# drawn on it.
+mode = "dark"
+
+accent = "#b6ffb6"
+selection = "#003300"
+muted = "#2e8f2e"
+
+background = "#001100"
+dark_background = "#000a00"
+darker_background = "#000500"
+lighter_background = "#00220a"
+
+foreground = "#33ff33"
+dark_foreground = "#1fae1f"
+light_foreground = "#7bff7b"
+bright_foreground = "#c8ffc8"
+
+red = "#5cff5c"
+yellow = "#a6ff8a"
+orange = "#7bff7b"
+green = "#33ff33"
+cyan = "#33ffb0"
+blue = "#2ed98a"
+magenta = "#c8ffc8"
+brown = "#2e8f2e"
+
+bright_red = "#8aff8a"
+bright_yellow = "#c8ffab"
+bright_orange = "#a6ffa6"
+bright_green = "#7bff7b"
+bright_cyan = "#7bffd0"
+bright_blue = "#5cf0b0"
+bright_magenta = "#e6ffe6"
+bright_brown = "#3fbf3f"

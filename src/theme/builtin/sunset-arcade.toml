@@ -1,0 +1,46 @@
+# sunset arcade — Kidboard's dark default.
+#
+# Sourced from Omarchy retro-82's MOOD, not its hexes. Its own wallpapers say
+# what that mood is better than any hex list: deep teal water under a hot
+# orange sky, a band of warm sand haze at the horizon, and one small burning
+# disc of sun. Dusk over water, not a neon sign — no wireframe grid, no
+# Miami magenta, and the only genuinely hot thing on screen is the accent.
+#
+# The four relationships, which are the whole design:
+#   deep COOL ground   <-  background / dark_background / selection
+#   warm LIGHT text    <-  foreground, a real sand rather than a grey
+#   one HOT accent     <-  accent, the sun on the water
+#   cool TEAL structure <- muted (borders) and dark_foreground (chrome text),
+#                          which is what stops warm-on-warm becoming Christmas
+mode = "dark"
+
+accent = "#ff7a3d"
+selection = "#153543"
+muted = "#3f7f8c"
+
+background = "#0e2732"
+dark_background = "#0a1e27"
+darker_background = "#07161d"
+lighter_background = "#1a3f4f"
+
+foreground = "#f5deb0"
+dark_foreground = "#84b2b8"
+light_foreground = "#fbecc9"
+bright_foreground = "#fff6e0"
+
+red = "#ff6a4d"
+yellow = "#f7d488"
+orange = "#ffa45c"
+green = "#7ed99f"
+cyan = "#5fcfd6"
+blue = "#7fb5e0"
+magenta = "#e9a7d1"
+brown = "#7a4526"
+
+bright_red = "#ff8a70"
+bright_yellow = "#ffe3a0"
+bright_orange = "#ffb87c"
+bright_green = "#9ce8b6"
+bright_cyan = "#84e0e6"
+bright_blue = "#9dc9ec"
+bright_magenta = "#f3bfe0"

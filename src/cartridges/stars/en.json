@@ -1,0 +1,10 @@
+{
+  "stars.steer": "steer",
+  "stars.souvenir.none": "you drifted among the stars",
+  "stars.souvenir.flew": "you flew through the stars!",
+  "stars.souvenir.past": "you flew right past {thing}!",
+  "stars.thing.moon": "the moon",
+  "stars.thing.planet": "a planet with a ring",
+  "stars.thing.comet": "a comet",
+  "stars.thing.saucer": "a flying saucer"
+}

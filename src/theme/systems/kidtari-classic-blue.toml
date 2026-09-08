@@ -1,0 +1,45 @@
+# kidtari · classic blue — the default machine, the default screen.
+#
+# A 2600 could not choose colours freely. The TIA built its palette as a HUE
+# crossed with eight LUMINANCE steps, so a screen was one hue's ramp and
+# almost nothing else. That constraint is the look, and it is also exactly
+# Kidboard's monochrome rule arriving from the other direction: a ground and
+# one ink, with a single hot thing on screen.
+#
+# Ramp: hue 8 (blue), the colour a cartridge booted to. Accent: hue 1 (gold),
+# the one other colour a 2600 title screen ever spent.
+mode = "dark"
+
+accent = "#fcfc68"
+selection = "#3838b0"
+muted = "#6c6ce0"
+
+background = "#1c1c98"
+dark_background = "#10105c"
+darker_background = "#08082e"
+lighter_background = "#3838b0"
+
+foreground = "#c0c0ff"
+dark_foreground = "#8484fc"
+light_foreground = "#d8d8ff"
+bright_foreground = "#ffffff"
+
+# One ramp, one accent. Every tone is a luminance step of the same blue, so a
+# game drawn in `win` and a game drawn in `cool` are the same machine.
+red = "#a4a4ff"
+yellow = "#fcfc68"
+orange = "#e8e85c"
+green = "#c0c0ff"
+cyan = "#a4a4ff"
+blue = "#8484fc"
+magenta = "#d8d8ff"
+brown = "#6c6ce0"
+
+bright_red = "#c0c0ff"
+bright_yellow = "#fcfc9c"
+bright_orange = "#fcfc68"
+bright_green = "#d8d8ff"
+bright_cyan = "#c0c0ff"
+bright_blue = "#a4a4ff"
+bright_magenta = "#ffffff"
+bright_brown = "#8484fc"

@@ -1,0 +1,8 @@
+{
+  "asteroids.turn": "turn",
+  "asteroids.go": "go",
+  "asteroids.fire": "shoot",
+  "asteroids.souvenir.none": "the rocks are still whole, every one of them — and still coming!",
+  "asteroids.souvenir.some": "you broke rocks into smaller rocks. that is how it works out here.",
+  "asteroids.souvenir.cleared": "you cleared the whole field. and then more arrived, of course."
+}

@@ -1,0 +1,22 @@
+{
+  "animal.cat.sound": "Meow!",
+  "animal.dog.sound": "Woof woof!",
+  "animal.fish.sound": "Blub blub!",
+  "animal.bird.sound": "Tweet tweet!",
+  "animal.snake.sound": "Hissssss!",
+  "animal.frog.sound": "Ribbit!",
+  "animal.cow.sound": "Mooooo!",
+  "animal.pig.sound": "Oink oink!",
+  "animal.duck.sound": "Quack quack!",
+  "animal.shark.sound": "Dun dun...",
+  "animal.dinosaur.sound": "ROARRR!",
+  "animal.lobster.sound": "Click click!",
+  "animal.elephant.sound": "PHHHRRRRT!",
+  "animal.monkey.sound": "Ooh ooh aah aah!",
+  "animal.bear.sound": "Grrr!",
+  "animal.rabbit.sound": "Hop hop!",
+  "animal.owl.sound": "Hoo hoo!",
+  "animal.turtle.sound": "Slow and steady!",
+  "animal.penguin.sound": "Waddle waddle!",
+  "animal.lion.sound": "ROARRR!"
+}

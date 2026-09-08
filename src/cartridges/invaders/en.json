@@ -1,0 +1,7 @@
+{
+  "invaders.move": "steer",
+  "invaders.fire": "shoot",
+  "invaders.souvenir.none": "the whole formation is still up there, marching — your ship is ready!",
+  "invaders.souvenir.some": "you knocked holes in the formation. it marches faster now.",
+  "invaders.souvenir.wave": "the whole wave, cleared. and here comes another one!"
+}

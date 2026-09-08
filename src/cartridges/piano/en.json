@@ -1,0 +1,8 @@
+{
+  "piano.white": "play",
+  "piano.black": "sharp",
+  "piano.length": "note length",
+  "piano.souvenir": "you played {notes}",
+  "piano.record": "record",
+  "piano.play": "play it back"
+}

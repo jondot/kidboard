@@ -1,0 +1,9 @@
+{
+  "sokoban.push": "push",
+  "sokoban.undo": "take it back",
+  "sokoban.souvenir.none": "the crates are still where you found them — every room is waiting!",
+  "sokoban.souvenir.pushed": "you shifted a crate. that is how every room starts.",
+  "sokoban.souvenir.some": "you got the crates home! the rooms are getting trickier.",
+  "sokoban.souvenir.far": "room after room, crate after crate. you are good at this.",
+  "sokoban.souvenir.all": "every single room, all the way to the last one. brilliant!"
+}

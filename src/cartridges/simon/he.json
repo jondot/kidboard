@@ -1,0 +1,11 @@
+{
+  "simon.pads": "ללחוץ על צורה",
+  "simon.also": "אותם ארבעה",
+  "simon.souvenir": "זכרתם {shapes}!",
+  "simon.souvenir.none": "הצורות מתחממות — תכף הן רוקדות!",
+  "simon.souvenir.more": "עוד",
+  "simon.shape.star": "כוכב",
+  "simon.shape.heart": "לב",
+  "simon.shape.moon": "ירח",
+  "simon.shape.flower": "פרח"
+}

@@ -1,0 +1,8 @@
+{
+  "draw.move": "draw",
+  "draw.ink": "new brush",
+  "draw.clear": "start again",
+  "draw.souvenir.none": "the paper is still blank — come back and draw!",
+  "draw.souvenir.some": "you drew something!",
+  "draw.souvenir.lots": "you filled the whole page!"
+}

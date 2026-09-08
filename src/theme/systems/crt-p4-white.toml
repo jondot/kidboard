@@ -1,0 +1,38 @@
+# crt · P4 white — the television phosphor.
+#
+# P4 is what a black-and-white set used, so it is the coldest of the three:
+# a blue-leaning white with no warmth in it at all. A machine plugged into
+# the family TV rather than into a monitor.
+mode = "dark"
+
+accent = "#ffffff"
+selection = "#1a1a20"
+muted = "#5f5f6e"
+
+background = "#0a0a0c"
+dark_background = "#060608"
+darker_background = "#020203"
+lighter_background = "#15151a"
+
+foreground = "#dcdce6"
+dark_foreground = "#8e8e9e"
+light_foreground = "#eeeef4"
+bright_foreground = "#ffffff"
+
+red = "#c8c8d4"
+yellow = "#e6e6ee"
+orange = "#d4d4de"
+green = "#dcdce6"
+cyan = "#c0c0d0"
+blue = "#aeaec0"
+magenta = "#eeeef4"
+brown = "#7a7a8a"
+
+bright_red = "#dcdce6"
+bright_yellow = "#f4f4f8"
+bright_orange = "#e6e6ee"
+bright_green = "#eeeef4"
+bright_cyan = "#d4d4e2"
+bright_blue = "#c4c4d4"
+bright_magenta = "#ffffff"
+bright_brown = "#9a9aaa"

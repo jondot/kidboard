@@ -1,0 +1,370 @@
+/* ---- the kid code machine -------------------------------------------------
+ *
+ * Owned by the kid code shell (`src/systems/shells/kidcode.tsx`). Imported from
+ * `src/styles.css`, so Kidboard is still ONE stylesheet to an embedder.
+ *
+ * Logical properties only — `margin-inline-start`, never `margin-left`. The
+ * playground reads right-to-left in Hebrew and a physical direction is a bug
+ * there; `chrome.invariants.test.ts` enforces this across every sheet.
+ *
+ * MONOCHROME. Every colour below is one of four: the ground, the ink
+ * (`--kb-plain`), its dim shade (`--kb-dim`), and the border tone. The accent
+ * appears in exactly five places — the `⏺` gutter, the `✻`, the prompt box
+ * when it has focus, the `>` and the caret (those last two belong to
+ * `InputLine`). There is no third tone anywhere in this file, and
+ * `kid code.test.tsx` checks that there never is.
+ */
+
+/* ---- the gutter --------------------------------------------------------
+ *
+ * A transcript is a COLUMN OF MARKERS, not a stack of bubbles. Two grid
+ * columns: a fixed cell for the marker, and everything else. Under Hebrew the
+ * whole grid mirrors — the marker moves to the reading edge — but each marker
+ * sits in a box of its own, so no bidi run can ever reorder one.
+ */
+.kb-kc-row {
+  display: grid;
+  grid-template-columns: 2ch 1fr;
+  column-gap: 0.5ch;
+  /* BASELINE, not `start`. A say can open with a `giant` line — the welcome
+     shout does — and a marker aligned to the top of a 30px line box floats
+     well above the letters it belongs to. Baseline puts it on the first line
+     of the body whatever size that line is. */
+  align-items: baseline;
+}
+
+.kb-kc-gutter {
+  color: var(--kb-accent);
+  /* These markers are text, not pictures. Without this a platform that gives
+     U+23FA an emoji presentation would paint a colour glyph in a machine that
+     has exactly one ink. */
+  font-variant-emoji: text;
+  unicode-bidi: isolate;
+  text-align: start;
+  user-select: none;
+}
+
+/* A grid track must be told it may be narrower than its contents, or a
+   canvas inside it pushes the transcript wider than the terminal. */
+.kb-kc-body {
+  min-inline-size: 0;
+}
+
+/* ---- the header ---------------------------------------------------------
+ *
+ * A logo tile beside four lines: the machine's name with a dim version after
+ * it, the model, the working directory. It scrolls away with everything else —
+ * it is the top of the transcript, not a header bar that stays.
+ *
+ * It replaced a rounded box saying "Welcome to …", which was a greeting where
+ * the real thing has an IDENTITY: the point of this machine is that a
+ * six-year-old sees the same shape their grown-up has open on the next desk,
+ * and that shape is a mark, a name, a version and a path — never a greeting in
+ * a bordered card, which is a thing no terminal has ever printed.
+ */
+.kb-kc-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-block-end: 1rem;
+  color: var(--kb-plain);
+}
+
+/* The mark: block characters in the accent, at the height of the three lines
+   beside it. Drawn with characters because this machine draws with
+   characters — no image, no SVG. */
+.kb-kc-logo {
+  flex: none;
+  color: var(--kb-accent);
+  font-size: 1.05em;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+}
+
+.kb-kc-header-lines { min-inline-size: 0; }
+
+.kb-kc-header-name {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.kb-kc-header-version {
+  font-weight: 400;
+  color: var(--kb-dim);
+  font-size: 0.875em;
+}
+
+.kb-kc-header-sub,
+.kb-kc-header-cwd {
+  color: var(--kb-dim);
+  font-size: 0.8125em;
+}
+
+/* The one glyph that is always hot: the welcome star and the spinner's. */
+.kb-kc-star {
+  color: var(--kb-accent);
+  font-variant-emoji: text;
+}
+
+/* ---- turns -------------------------------------------------------------
+ *
+ * A real ANSI rule between turns, in the border tone. Thin, low, and the same
+ * line the rest of the machine is drawn with — a divider that announced
+ * itself would be decoration.
+ */
+[data-kb-sep] {
+  margin-block: 0.75rem;
+  border-block-start: 1px solid var(--kb-border);
+  opacity: 0.5;
+}
+
+.kb-kc-echo {
+  margin-block: 0.25rem;
+}
+
+/**
+ * The prompt's direction is settled in `styles.css` now, on
+ * `[data-kb-prompt]`, and by the same rule for every machine: the span is
+ * isolated LTR so Unicode's own bidi mirroring cannot turn a chevron round by
+ * accident, and a CHEVRON is then deliberately mirrored back under Hebrew,
+ * because an arrow saying "your words go this way" has to turn when the words
+ * do.
+ *
+ * It used to live here, scoped to this shell, because `>` was this machine's
+ * problem alone. It is shared now: `InputLine` and `BlockView` both mark the
+ * prompt through `promptKind.ts`, so the live line and every echoed line above
+ * it can never disagree about which way the arrow points.
+ */
+
+.kb-kc-call-turn {
+  margin-block: 0.25rem;
+}
+
+/* ---- the call line -----------------------------------------------------
+ *
+ * `⏺ ball(bounce · ← → move · ESC done)`. The tool's name in the ink, its
+ * arguments — which is where `helpAt: 'callLine'` puts the help — one shade
+ * back, and the keys themselves in the ink again so a child's eye lands on
+ * them.
+ */
+/* The wrapper that sets no direction of its own, so `start` here resolves
+   against the PAGE's — left in English, right in Hebrew. */
+.kb-kc-callrow {
+  text-align: start;
+}
+
+/* Shrink-to-fit, so the row above has an inline box to actually position: a
+   full-width block ignores its container's text-align entirely.
+ *
+ * DIM, not the ink. A call line is the machine narrating itself — `ball()` is
+ * what the terminal did, not something a child said or a thing they can press
+ * — and at full strength it was the loudest line in a transcript whose loudest
+ * line should be the child's own word. It recedes; the KEYS inside it stay in
+ * the ink, so what a six-year-old actually needs off this line is the only
+ * part that comes forward. */
+.kb-kc-callline {
+  display: inline-block;
+  color: var(--kb-dim);
+  overflow-wrap: anywhere;
+}
+
+.kb-kc-tool {
+  font-weight: 700;
+}
+
+.kb-kc-args {
+  color: var(--kb-dim);
+  opacity: 0.85;
+}
+
+.kb-kc-hint {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5ch;
+}
+
+.kb-kc-keys {
+  color: var(--kb-plain);
+  font-weight: 700;
+  unicode-bidi: isolate;
+}
+
+/* The result, indented under the call it belongs to. */
+.kb-kc-result {
+  margin-block-start: 0.125rem;
+  padding-inline-start: 2.5ch;
+  /* STRETCH, not `start`. The rail below is sized by its row, so the row has
+     to hand it the full height — `align-items: start` collapsed it to nothing
+     and `baseline` would have dropped it to the foot of a canvas. */
+  align-items: stretch;
+}
+
+/**
+ * THE RAIL: `⎿`, drawn instead of typed.
+ *
+ * A vertical line down the whole height of the result, then a short foot where
+ * it ends. As a glyph it was one character tall beside a game four hundred
+ * pixels tall — it marked where the result began and then let go of it. As two
+ * borders on an empty box it is exactly as tall as what it introduces, always,
+ * with nothing to keep in step.
+ *
+ * Logical borders throughout, so under Hebrew the whole L mirrors with the
+ * grid it sits in.
+ */
+.kb-kc-rail {
+  align-self: stretch;
+  inline-size: 1.1ch;
+  margin-inline-start: 0.4ch;
+  /* Starts on the call line's own baseline, and stops a little short of the
+     next turn — a rule that ran edge to edge would read as a table border. */
+  margin-block: 0.15em 0.4em;
+  border-inline-start: 1px solid var(--kb-dim);
+  border-block-end: 1px solid var(--kb-dim);
+  border-end-start-radius: 3px;
+  opacity: 0.8;
+}
+
+/* ---- the spinner -------------------------------------------------------
+ *
+ * `✻ Flabbering… (0s · esc to interrupt)`. Seconds are the only number: they
+ * are measured, not invented, and there is nothing else here to count.
+ */
+.kb-kc-spinner {
+  margin-block-start: 0.5rem;
+  color: var(--kb-plain);
+}
+
+.kb-kc-meta {
+  color: var(--kb-dim);
+}
+
+/**
+ * IT HAS TO LOOK LIKE IT IS WORKING, and it did not: a still star and a
+ * printed `…` are a sentence about thinking rather than a thing thinking. So
+ * the star TURNS and the dots FILL — the two motions every terminal in the
+ * world has used to say the same thing.
+ *
+ * BOTH ARE CSS. There is a timer in this shell already (the elapsed seconds),
+ * and adding a second one to move a glyph would be exactly the "re-arms on a
+ * timer" this project refuses everywhere else — plus four re-renders a second
+ * of a transcript with a canvas in it. An animation dies with the element, and
+ * the element is gone a beat later.
+ *
+ * The star is a six-pointed asterisk, so it is stepped in six: a smooth spin
+ * would betray it as a rotated picture, while six discrete positions is the
+ * glyph CYCLING, which is what the real one does.
+ */
+.kb-kc-star {
+  display: inline-block;
+  animation: kb-kc-turn 900ms steps(6, end) infinite;
+}
+
+@keyframes kb-kc-turn {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* The dots fill left to right and start again — never a chase, which reads as
+   a thing bouncing rather than a thing progressing. `isolate`, because three
+   full stops next to a Hebrew gerund are neutral characters and would
+   otherwise be re-ordered onto the wrong end of the word. */
+.kb-kc-dots {
+  display: inline-block;
+  unicode-bidi: isolate;
+}
+
+.kb-kc-dots > i {
+  font-style: normal;
+  opacity: 0.2;
+  animation: kb-kc-dot 1200ms steps(1, end) infinite;
+}
+
+.kb-kc-dots > i:nth-child(2) { animation-delay: 300ms; }
+.kb-kc-dots > i:nth-child(3) { animation-delay: 600ms; }
+
+/* Lit for three quarters of the cycle, so each dot arrives a beat after the
+   one before it and all three go out together at the turn. */
+@keyframes kb-kc-dot {
+  0%, 74% { opacity: 1; }
+  75%, 100% { opacity: 0.2; }
+}
+
+/**
+ * A child who has asked their machine to stop moving things has asked THIS
+ * too. The spinner stays — it is a real answer to "is anything happening" —
+ * and simply holds still, with all three dots up.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .kb-kc-star,
+  .kb-kc-dots > i { animation: none; }
+  .kb-kc-dots > i { opacity: 1; }
+}
+
+/* ---- the prompt box ----------------------------------------------------
+ *
+ * The one piece of chrome that does not scroll: a rounded hairline rectangle
+ * with the shortcut line dim underneath it — which is where this machine's
+ * help lives, and the only machine of the four that puts it there.
+ *
+ * THE BORDER IS NEVER THE ACCENT. It used to go hot on focus, and since the
+ * input is focused nearly all the time that meant a saturated orange rectangle
+ * across the foot of the screen — the single loudest thing on a display whose
+ * whole design is one warm accent used sparingly, and a box drawn twice as
+ * loud as the child's own words sitting inside it. The real thing is a quiet
+ * hairline at rest and at focus alike; the caret is what says where you are,
+ * which is how every terminal has ever said it.
+ */
+.kb-kc-foot {
+  flex: none;
+  padding-block-end: 0.625rem;
+  padding-inline: 1rem;
+}
+
+.kb-kc-promptbox {
+  padding-block: 0.4375rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--kb-border);
+  border-radius: 8px;
+}
+
+.kb-kc-shortcuts {
+  margin-block-start: 0.3125rem;
+  padding-inline: 0.375rem;
+  color: var(--kb-dim);
+  font-size: 0.8125em;
+  text-align: start;
+}
+
+/**
+ * `⏺` and `⎿` are in neither JetBrains Mono nor most system monos, so they
+ * fall back to whatever face has them and land a size or two light. Nudged up
+ * so the gutter reads as a gutter rather than as flecks beside the text.
+ */
+.kb-kc-gutter {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+/* ---- this machine's game picker ----------------------------------------
+ *
+ * Shift, Shift. The list is the same list on all four machines; what it looks
+ * like is the machine's. Here it is a terminal's own popover: a hairline at a
+ * soft radius, no shadow plate, and the highlight in the accent — the same
+ * three moves the prompt box and the settings menu already make.
+ */
+[data-kb-system="kidcode"] .kb-picker {
+  border: 1px solid var(--kb-border);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-kb-system="kidcode"] .kb-picker-title {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--kb-dim);
+}
+
+[data-kb-system="kidcode"] .kb-menu {
+  border-radius: 8px;
+  box-shadow: none;
+}

@@ -1,0 +1,16 @@
+{
+  "catch.move": "move the basket",
+  "catch.souvenir": "you caught {list}!",
+  "catch.souvenir.none": "the basket is still empty — the sky is full of surprises!",
+  "catch.souvenir.more": "more",
+  "catch.name.star": "a star",
+  "catch.name.cake": "a cake",
+  "catch.name.apple": "an apple",
+  "catch.name.balloon": "a balloon",
+  "catch.name.gift": "a gift",
+  "catch.name.blossom": "a blossom",
+  "catch.name.banana": "a banana",
+  "catch.name.fish": "a fish",
+  "catch.name.moon": "a moon",
+  "catch.name.cookie": "a cookie"
+}

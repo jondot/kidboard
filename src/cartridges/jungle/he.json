@@ -1,0 +1,12 @@
+{
+  "jungle.run": "לרוץ",
+  "jungle.jump": "לזנק",
+  "jungle.gold": "מטיל הזהב",
+  "jungle.diamond": "היהלום",
+  "jungle.bag": "שק המטבעות",
+  "jungle.crown": "הכתר",
+  "jungle.more": "עוד",
+  "jungle.souvenir.none": "היער ממש שם, מחכה, וכל האוצר עדיין בתוכו!",
+  "jungle.souvenir.deep": "הלכתם עמוק לתוך היער. האוצר נמצא שם איפשהו.",
+  "jungle.souvenir.found": "חזרתם מהיער עם {list}!"
+}

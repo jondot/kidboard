@@ -1,0 +1,12 @@
+{
+  "jungle.run": "run",
+  "jungle.jump": "leap",
+  "jungle.gold": "the gold bar",
+  "jungle.diamond": "the diamond",
+  "jungle.bag": "the bag of coins",
+  "jungle.crown": "the crown",
+  "jungle.more": "more",
+  "jungle.souvenir.none": "the jungle is right there, waiting, with all of the treasure still in it!",
+  "jungle.souvenir.deep": "you went a long way into the jungle. the treasure is in there somewhere.",
+  "jungle.souvenir.found": "you came back out of the jungle with {list}!"
+}

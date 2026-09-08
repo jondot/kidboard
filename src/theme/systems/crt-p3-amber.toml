@@ -1,0 +1,40 @@
+# crt · P3 amber — the default phosphor.
+#
+# A monochrome monitor had exactly one colour, and P3 is the amber one: the
+# tube everybody remembers as easier on the eyes than green. There is no
+# palette to choose from here, only how hard the beam is driven, so every
+# tone is a brightness of the same amber and the accent is simply the
+# brightest the gun goes.
+mode = "dark"
+
+accent = "#ffd54a"
+selection = "#2b1c00"
+muted = "#8a5c00"
+
+background = "#120b00"
+dark_background = "#0b0700"
+darker_background = "#050300"
+lighter_background = "#241700"
+
+foreground = "#ffb000"
+dark_foreground = "#b87f10"
+light_foreground = "#ffc94d"
+bright_foreground = "#ffe3a3"
+
+red = "#ff9a00"
+yellow = "#ffd54a"
+orange = "#ffb000"
+green = "#ffc228"
+cyan = "#e0a319"
+blue = "#c98f14"
+magenta = "#ffe3a3"
+brown = "#8a5c00"
+
+bright_red = "#ffb62b"
+bright_yellow = "#ffe37a"
+bright_orange = "#ffc93f"
+bright_green = "#ffd863"
+bright_cyan = "#f5bc3a"
+bright_blue = "#e0a821"
+bright_magenta = "#fff0cc"
+bright_brown = "#b87f10"

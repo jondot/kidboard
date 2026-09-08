@@ -1,0 +1,38 @@
+# kid code · light — the same machine on paper.
+#
+# The same machine on an ivory page. The accent is the dark theme's orange
+# pulled down until it clears AA on a near-white ground; a light theme that
+# keeps the dark theme's accent verbatim is one nobody can read the prompt on.
+mode = "light"
+
+accent = "#bc5730"
+selection = "#eeece4"
+muted = "#8b8a83"
+
+background = "#faf9f5"
+dark_background = "#f0eee6"
+darker_background = "#e6e4da"
+lighter_background = "#edebe3"
+
+foreground = "#3d3d3a"
+dark_foreground = "#63625d"
+light_foreground = "#2a2a28"
+bright_foreground = "#141413"
+
+red = "#bc5730"
+yellow = "#6b6455"
+orange = "#bc5730"
+green = "#55604a"
+cyan = "#4d5c5c"
+blue = "#4e5768"
+magenta = "#655463"
+brown = "#7a6f60"
+
+bright_red = "#a44824"
+bright_yellow = "#524c40"
+bright_orange = "#a44824"
+bright_green = "#414a38"
+bright_cyan = "#3a4646"
+bright_blue = "#3b4351"
+bright_magenta = "#4e404c"
+bright_brown = "#5f564a"

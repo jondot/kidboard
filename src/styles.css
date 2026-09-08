@@ -1,0 +1,1129 @@
+/**
+ * The four machines' typefaces, in ONE request: Silkscreen (Kidtari), JetBrains
+ * Mono (Kid Code), VT323 (CRT / Logo), Fira Code (Omarchy).
+ *
+ * An `@import` must precede every rule, so it is the first line of the file.
+ * It is a stylesheet import rather than a `<link>` written from JS on purpose:
+ * Kidboard is embeddable and must never touch the host page's `<head>`.
+ *
+ * Every system's stack ends in `ui-monospace, monospace`, so a blocked,
+ * offline or still-loading face degrades to the platform's own mono and the
+ * grid still holds — nothing here is load-bearing.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&family=JetBrains+Mono&family=Silkscreen&family=VT323&display=swap');
+
+@import "tailwindcss" prefix(kb);
+
+/**
+ * Each machine's own chrome, so three shells are three files rather than three
+ * agents editing the bottom of this one. Still ONE stylesheet to an embedder:
+ * these are `@import`s, not a second thing to remember to load. The Kidtari's
+ * rules stay at the foot of this file — it was here before the split.
+ */
+@import './systems/shells/kidcode.css';
+@import './systems/shells/crt.css';
+@import './systems/shells/omarchy.css';
+
+/**
+ * The values below are `sunset-arcade`, written out once so that the very
+ * first painted pixel is already a Kidboard pixel — even before React has
+ * mounted, and even in an embedder that strips inline styles.
+ *
+ * They are a FLOOR, not the theme. The real palette is written as `--kb-*`
+ * custom properties onto the Kidboard root element by `src/theme/`, which is
+ * also what makes this component embeddable: Kidboard themes itself and never
+ * the host page. There is deliberately no `prefers-color-scheme` block here,
+ * and since the systems layer landed the operating system has no vote at all:
+ * a palette belongs to a MACHINE, and there is no light Kidtari. A child with
+ * no stored choice gets the default machine's own default palette, which is a
+ * fact rather than a guess. See the note in `theme/store.ts`.
+ */
+:root {
+  --kb-bg: #0e2732;
+  --kb-surface: #0a1e27;
+  --kb-panel: #153543;
+  --kb-raised: #1a3f4f;
+  --kb-border: #3f7f8c;
+  --kb-dim: #84b2b8;
+  --kb-accent: #ff7a3d;
+  --kb-prompt: #ff7a3d;
+  --kb-glow: rgb(255 122 61 / 0.42);
+  --kb-plain: #f5deb0;
+  --kb-art: #f7d488;
+  --kb-info: #5fcfd6;
+  --kb-win: #7ed99f;
+  --kb-magic: #e9a7d1;
+  --kb-warm: #ffa45c;
+  --kb-cool: #7fb5e0;
+}
+
+@theme inline {
+  --color-kb-bg: var(--kb-bg);
+  --color-kb-surface: var(--kb-surface);
+  --color-kb-panel: var(--kb-panel);
+  --color-kb-raised: var(--kb-raised);
+  --color-kb-border: var(--kb-border);
+  --color-kb-dim: var(--kb-dim);
+  --color-kb-accent: var(--kb-accent);
+  --color-kb-prompt: var(--kb-prompt);
+  --color-kb-plain: var(--kb-plain);
+  --color-kb-art: var(--kb-art);
+  --color-kb-info: var(--kb-info);
+  --color-kb-win: var(--kb-win);
+  --color-kb-magic: var(--kb-magic);
+  --color-kb-warm: var(--kb-warm);
+  --color-kb-cool: var(--kb-cool);
+  /**
+   * THE PRE-SYSTEMS DEFAULT, AND A LITERAL ON PURPOSE.
+   *
+   * This briefly read `var(--kb-font, …)`, to make the `kb:font-kb-mono`
+   * utility follow the active machine. It shipped the entire playground in a
+   * proportional sans, and every test stayed green, because two separate
+   * things break a `var()` here and neither is visible to jsdom:
+   *
+   *  1. Tailwind v4 cannot resolve a `@theme` entry whose value is a `var()`
+   *     reference, so it emits NO `--font-kb-mono` custom property at all —
+   *     and every `var(--font-kb-mono)` read then falls back to the inherited
+   *     body font.
+   *  2. Even if it did emit one, a `var()` inside a CUSTOM PROPERTY resolves
+   *     where that property is declared. This block lands on `:root`, and
+   *     `--kb-font` is set on the Kidboard frame, several levels below it.
+   *     It would have resolved to the fallback on every element.
+   *
+   * So the machine seam is applied where it belongs — in the real
+   * `font-family` declarations below, which resolve per element — and this
+   * stays a literal that Tailwind can serialize. See `.kb-frame` and
+   * `.kb-art`.
+   */
+  --font-kb-mono: "JetBrains Mono", "Miriam Mono CLM", "Cousine", ui-monospace,
+    monospace;
+}
+
+.kb-tone-plain { color: var(--kb-plain); }
+.kb-tone-art   { color: var(--kb-art); }
+.kb-tone-info  { color: var(--kb-info); }
+.kb-tone-win   { color: var(--kb-win); }
+.kb-tone-magic { color: var(--kb-magic); }
+.kb-tone-warm  { color: var(--kb-warm); }
+.kb-tone-cool  { color: var(--kb-cool); }
+
+.kb-scale-normal { font-size: 1rem; }
+.kb-scale-big    { font-size: 1.5rem; line-height: 1.375; }
+.kb-scale-giant  { font-size: 1.875rem; font-weight: 700; line-height: 1.375; }
+.kb-scale-flood  { font-size: 1.25rem; line-height: 1.375; word-break: break-all; }
+
+/**
+ * HOW BIG THE WORDS ARE — the prose and the prompt, and nothing else.
+ *
+ * `--kb-text-scale` is a MULTIPLIER on whatever type the machine already
+ * chose (see `chrome/textSize.ts`), so a bigger Kidtari is still a Kidtari and
+ * the four machines keep the four type sizes that make them four machines.
+ *
+ * WHAT IT DELIBERATELY DOES NOT REACH. A game sizes its cells from the width
+ * of its container, which no rule here touches, so a game is exactly the same
+ * size at every setting. A `{kind:'art'}` drawing is a picture at the size its
+ * cartridge asked for — `count`'s ducks and `memory`'s cards are boards, and a
+ * board that grew when the prose did would be a different game. And the chrome
+ * is chrome: a menu is furniture, not something a child is reading.
+ *
+ * `1em` rather than `1rem` on the bare class, because a block with no `scale`
+ * of its own INHERITS the machine's type and must go on doing so; the scale
+ * classes each restate their own base so the multiplier composes with them
+ * rather than being overwritten by them.
+ */
+/**
+ * READ THIS OUT LOUD — the speaker that sits at the end of a line the machine
+ * said. See `runtime/speech.ts` and `Speak` in `BlockView.tsx`.
+ *
+ * `--kb-speak` is how a MUTED machine hides it: `display: none` takes it out
+ * of the tab order as well as off the screen, so there is no way to reach a
+ * control that would answer nothing. That is the same rule as the prompt a
+ * running game removes — never leave something on screen that looks like it
+ * is listening and is not. `speak()` refuses on a muted machine too; this one
+ * is presentation, that one is the lock.
+ *
+ * A FIXED SIZE, not `1em`. It sits inside blocks that may be `giant`, and a
+ * speaker as tall as the word beside it stops being punctuation and starts
+ * being a second thing on the line. Dim until it is wanted, full ink on hover
+ * and on keyboard focus, so it never competes with what it is offering to
+ * read.
+ */
+.kb-speak {
+  display: var(--kb-speak, inline-flex);
+  align-items: center;
+  vertical-align: baseline;
+  margin-inline-start: 0.5ch;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: var(--kb-dim);
+  background: none;
+  border: 0;
+  /* Small glyph, finger-sized target: the padding is the hit area, and a
+     tablet is one of the places a child most wants to be read to. */
+  padding: 0.375rem;
+  margin-block: -0.375rem;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 120ms ease, color 120ms ease;
+}
+
+.kb-speak:hover,
+.kb-speak:focus-visible,
+.kb-speak[data-kb-saying] {
+  opacity: 1;
+  color: var(--kb-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-speak { transition: none; }
+}
+
+/**
+ * THE WORD THE MACHINE IS TYPING FOR ITSELF, arriving as the box's
+ * placeholder — see `ghost` in `InputLine.tsx`.
+ *
+ * A browser's own placeholder grey would read as a hint about what to type.
+ * This is not a hint: it is the machine at the keyboard, so it is the same
+ * ink the child's own words are in, one shade back.
+ */
+.kb-input::placeholder {
+  color: var(--kb-plain);
+  opacity: 0.65;
+}
+
+.kb-prose { font-size: calc(1em * var(--kb-text-scale, 1)); }
+.kb-prose.kb-scale-normal { font-size: calc(1rem * var(--kb-text-scale, 1)); }
+.kb-prose.kb-scale-big    { font-size: calc(1.5rem * var(--kb-text-scale, 1)); }
+.kb-prose.kb-scale-giant  { font-size: calc(1.875rem * var(--kb-text-scale, 1)); }
+.kb-prose.kb-scale-flood  { font-size: calc(1.25rem * var(--kb-text-scale, 1)); }
+
+.kb-rainbow {
+  background: linear-gradient(
+    90deg,
+    var(--kb-warm), var(--kb-art), var(--kb-win),
+    var(--kb-info), var(--kb-cool), var(--kb-magic)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+/**
+ * One emoji = exactly two monospace cells. `ch` is the advance of `0` in the
+ * surrounding mono font, so `2ch` is two grid columns no matter which fallback
+ * font (Apple Color Emoji / Noto / Segoe) actually draws the glyph — the
+ * browser cannot be trusted to make an emoji two cells wide on its own, and
+ * the error accumulates across a row until column headers stop lining up.
+ */
+.kb-cell2 {
+  display: inline-block;
+  width: 2ch;
+  text-align: center;
+}
+
+/**
+ * `direction: ltr` + `unicode-bidi: isolate` on `.kb-art` fix the GLYPH ORDER
+ * inside the drawing — an ASCII cat must never get bidi-reordered under
+ * Hebrew. That is a separate concern from where the BLOCK sits on the page,
+ * which must still follow the reading edge (left in English, right in
+ * Hebrew). `start`/`end` keywords (the default resolution of `text-align`)
+ * resolve against an element's OWN `direction` — so putting `text-align` on
+ * `.kb-art` itself, whatever its value, resolves against the LTR we just
+ * forced on it, not the page's, and pins every art block to the left forever
+ * regardless of locale. (`text-align: match-parent` looks like the fix, and
+ * reads like one on paper, but was verified in a real Chromium NOT to
+ * re-derive from the ancestor here: once an element's own `direction`
+ * already differs from its parent's, it still resolves `start`/`end` against
+ * the element's OWN direction, i.e. it is a no-op for exactly this case —
+ * measured with `getClientRects()` before writing the rule below, not
+ * assumed from reading the spec.)
+ *
+ * So alignment has to live on an ANCESTOR that never sets its own
+ * `direction` — it inherits the page's, which mirrors under Hebrew with zero
+ * locale branching. `.kb-art-row` is that ancestor: `text-align: start`
+ * there resolves against the page's own direction, and `.kb-art` becomes
+ * `display: inline-block` (shrink-to-fit) so the row's text-align has an
+ * inline box to actually position — a full-width block ignores its
+ * container's text-align entirely.
+ */
+.kb-art-row {
+  text-align: start;
+  /* The container a drawing measures itself against. See `.kb-art`. */
+  container-type: inline-size;
+}
+
+.kb-art {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  white-space: pre;
+  /*
+   * A DRAWING IS A GRID, SO IT NEEDS A FACE THAT CAN HOLD ONE.
+   *
+   * This used to read `var(--kb-font, …)` — the machine's own type, the same
+   * as everything else on screen — and on two of the four machines that made
+   * every character grid ragged. Silkscreen and VT323 are display faces, not
+   * monospaces: measured in Chrome at 32px, `0` is 24 wide, `M` is 28 and a
+   * space is 16, and neither has box-drawing glyphs at all, so the frame
+   * around a drawing was already falling back to a third font at a fourth
+   * width. A `count` board came out with a dashed right border and its ducks
+   * drifting off their columns; under Hebrew, where that ragged edge is the
+   * edge you read from, it looked like the drawing had been left-aligned.
+   *
+   * `--kb-art-font` is the machine's face when that face is monospaced and
+   * the shared mono stack when it is not — the decision is data, on
+   * `SystemFont.monospaced`, not a list of system ids in here. Prose, the
+   * prompt, the transcript and all the chrome keep the machine's own type
+   * either way, which is where the seam is actually visible.
+   */
+  font-family: var(--kb-art-font, var(--font-kb-mono));
+  /*
+   * A DRAWING NEVER OVERFLOWS ITS CONTAINER.
+   *
+   * Art is `white-space: pre` in a transcript that scrolls vertically only, so
+   * a drawing wider than the terminal is not wrapped and not scrolled — it is
+   * clipped, and the child loses the right-hand side of their own picture.
+   * `card.ts` documents that ceiling and asks every card to stay under it;
+   * this is the same rule enforced by the browser instead of by arithmetic,
+   * which is what `spot` needed the day it asked to be drawn `giant`.
+   *
+   * `--kb-art-cells` is the drawing's own width in cells, measured by
+   * `ArtView`; 0.6 is the width of a monospace cell in ems, which is
+   * `CELL_ASPECT`. So the second term is "the size at which this exact
+   * drawing spans the container", and `min()` takes the requested size until
+   * that is the smaller of the two. A drawing that already fits is untouched.
+   */
+  font-size: min(
+    var(--kb-art-size, 1em),
+    calc(100cqi / (var(--kb-art-cells, 40) * 0.6))
+  );
+  /* After the `.kb-scale-*` rules on purpose: a scaled drawing takes their
+     font-size and keeps this line-height. A drawing is a GRID — 1.375 opens
+     gaps between its rows and the picture comes apart. */
+  line-height: 1.15;
+}
+
+/**
+ * …AND A DRAWING MADE ONLY OF BLOCKS TILES EXACTLY.
+ *
+ * 1.15 is right for a drawing with letters or emoji in it: an emoji glyph is
+ * routinely taller than its em box and rows set solid would collide. It is
+ * wrong for a BITMAP — 15% of leading between the rows of a solid shape is
+ * 15% of white across every one of them, and `intro`'s five-row marquee
+ * shipped looking like a barcode. `ArtView` decides which is which off the
+ * characters; see the note on `SOLID` there.
+ */
+.kb-art.kb-art-solid { line-height: 1; }
+
+/* A drawing is never bold. `.kb-scale-giant` sets a weight because it is
+   built for a shout of prose, and a bold monospace face re-spaces a grid. */
+/*
+ * A drawing's scale is a MULTIPLE of the machine's own type, not a pixel
+ * count: `.kb-scale-*` are in `rem`, which would pin a drawing to 16px on a
+ * machine set in 22px. These feed `--kb-art-size`, which `.kb-art` then
+ * clamps to what actually fits.
+ *
+ * And a drawing is never bold — `.kb-scale-giant` sets a weight because it is
+ * built for a shout of prose, and a bold monospace face re-spaces a grid.
+ */
+.kb-art.kb-scale-big   { --kb-art-size: 1.5em; }
+.kb-art.kb-scale-giant { --kb-art-size: 1.875em; font-weight: inherit; }
+
+/* ---- the machine ------------------------------------------------------ */
+
+/**
+ * LOGICAL PROPERTIES ONLY, everywhere below. Under Hebrew the whole toolbar
+ * mirrors — the title moves to the right, the buttons to the left, and every
+ * panel opens from the correct edge — without a single RTL override, because
+ * nothing here names a physical side. `chrome.invariants.test.ts` enforces it.
+ *
+ * ONE BORDER LANGUAGE. The frame, the rules under the title bar and above the
+ * context bar, and every panel are the same 2px teal line at the same 3px
+ * radius. That is the "80s" of this design, and it is structural rather than
+ * decorative: a machine with a bezel, not a costume with a wireframe grid.
+ * Teal is doing all of it, which is what keeps warm sand on a hot accent from
+ * reading as Christmas.
+ */
+
+/**
+ * THE ONE RULE: accent means heat and focus, teal means structure.
+ *
+ * Borrowed from retro-82 as a relationship, not a hex — in its own preview the
+ * FOCUSED window wears the hot accent as its border while every internal
+ * divider stays teal, and that single contrast is what stops a cool palette
+ * reading cold. Kidboard is one window and it is always the focused one, so
+ * the outer bezel is the accent and everything inside it — the rule under the
+ * title bar, the rule above the context bar, the panels, the swatches — is
+ * teal. The accent then appears in exactly four places: this frame, the
+ * prompt, the open button, and the row under the cursor.
+ */
+.kb-frame {
+  /* The machine's type, on the same element as the machine's palette. */
+  /* THE MACHINE SEAM. A real `font-family`, not a custom property: `var()`
+     resolves against the element it is declared on, and `--kb-font` lives
+     here. See the note on `--font-kb-mono` above for what the other spelling
+     of this cost. */
+  font-family: var(--kb-font, var(--font-kb-mono));
+  font-size: var(--kb-font-size, 1rem);
+  line-height: var(--kb-line-height, 1.625);
+  /*
+   * NO BEZEL HERE ANY MORE. The root used to draw one accent border with a
+   * halo behind it for all four machines, which is exactly the generic product
+   * chrome the systems layer exists to delete: a television, a macOS window, a
+   * monitor and a tiling compositor do not share an edge. `chrome/Window.tsx`
+   * draws the frame now, one variant per `System.window`, and this element is
+   * only the palette, the typeface and the box they live in.
+   */
+}
+
+/**
+ * A POINTING PROMPT, and the one thing about it Hebrew changes.
+ *
+ * `❯` is an arrow saying "your words go this way", so in an RTL line it has to
+ * turn round: left alone it sits at the right end of the line pointing away
+ * from every word the child is about to type. Mirrored with a transform rather
+ * than by swapping in `❮`, which is a different glyph with different metrics
+ * and would not sit the same. `?` and `READY` are untouched — a mirrored
+ * question mark is a different mark, and a word points at nothing.
+ *
+ * Sized up a touch: a chevron is drawn small and light in most monos, and next
+ * to 16px of type at full weight it read as a speck rather than a prompt.
+ */
+[data-kb-prompt="chevron"] {
+  display: inline-block;
+  font-size: 1.15em;
+  /*
+   * ONE LINE OF THE TEXT BESIDE IT, and this is what centres the arrow.
+   *
+   * `line-height: 1` gave the glyph a line box the height of its own em and
+   * nothing more, so in a row aligned to the top it sat a few pixels above the
+   * caret and above every letter the child typed — an arrow floating over the
+   * line rather than pointing at it. The surrounding line is
+   * `--kb-line-height` of the PARENT's size and this element is 1.15 times
+   * that size, so dividing gives exactly the same line box in its own ems. The
+   * leading is then split above and below the glyph by the same half-leading
+   * rule that centres every other character on the line.
+   */
+  line-height: calc(var(--kb-line-height, 1.625) / 1.15);
+}
+
+[dir="rtl"] [data-kb-prompt="chevron"] { transform: scaleX(-1); }
+
+/**
+ * A PROMPT BOX WITH NO PROMPT IN IT IS NOT A BOX.
+ *
+ * Kid Code draws a border around the input line. A running game removes that
+ * line (see `InputLine`), which would otherwise leave an empty rounded
+ * rectangle sitting under the game looking like something waiting to be
+ * filled in. `:empty` is exact here — the box holds the input line and
+ * nothing else, and it has no whitespace text node of its own.
+ */
+[data-kb-promptbox]:empty { display: none; }
+
+/**
+ * THE INPUT LINE'S TYPE, and the single declaration that fixes it.
+ *
+ * A `<textarea>` does not inherit type from its ancestors — every UA
+ * stylesheet gives form controls their own `font: 400 13.33px monospace` — so
+ * the frame's `--kb-font` reached every character on screen EXCEPT the ones a
+ * child was typing. `font: inherit` is the whole fix; the size and line-height
+ * come with it, so the caret sits on the same baseline grid as the transcript
+ * above it on all four machines.
+ */
+.kb-input {
+  font: inherit;
+  letter-spacing: inherit;
+  /**
+   * A BLOCK CARET, ON ALL FOUR MACHINES.
+   *
+   * The tube and the television had one already and the other two took the
+   * browser's default, which is a one-pixel line — a hairline a six-year-old
+   * has to hunt for, on a screen where the whole point is knowing where your
+   * words are about to go. A block is what every terminal that ever mattered
+   * blinked at you, and it is the shape a child can actually see from a metre
+   * away. `caret-color` is set beside it on the element, in the machine's
+   * prompt ink.
+   *
+   * `caret-shape` is young: a browser that does not know it draws the ordinary
+   * line, which is exactly what those two machines had before. Nothing depends
+   * on it, so there is nothing to fall back to.
+   */
+  caret-shape: block;
+}
+
+/**
+ * An icon is drawn in the machine's ink, at the size of the text beside it.
+ * Stroked SVG in `currentColor` — never a colour of its own, which is the
+ * whole reason the chrome's emoji are gone. See `src/ui/icons.tsx`.
+ */
+.kb-glyph {
+  inline-size: 1em;
+  block-size: 1em;
+  vertical-align: -0.125em;
+}
+
+.kb-rule-b { border-block-end: 2px solid var(--kb-border); }
+.kb-rule-t { border-block-start: 2px solid var(--kb-border); }
+
+/* ---- the settings menu ------------------------------------------------- */
+
+/**
+ * ONE opener, and it is an ICON rather than an emoji.
+ *
+ * The four buttons this replaced were 🎮 🎨 🌍 🃏 — full-colour bitmaps the
+ * font vendor chose, which ignore the palette entirely and are four
+ * indistinguishable smudges at 18px on a single-ink machine. `.kb-glyph` is a
+ * stroked SVG drawn in `currentColor`, so the gear is always exactly the ink
+ * of the bar it sits in. See `src/ui/icons.tsx`.
+ */
+.kb-menu-root { position: relative; display: inline-flex; }
+
+.kb-menu-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  /* A terminal's chrome is flat; the only motion is the colour. */
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.kb-menu-open:hover { background: var(--kb-raised); border-color: var(--kb-border); }
+
+.kb-menu-open[aria-expanded="true"] {
+  background: var(--kb-panel);
+  border-color: var(--kb-accent);
+  color: var(--kb-accent);
+}
+
+/**
+ * A real focus ring. `:focus-visible` rather than `:focus`, so a child
+ * clicking with a mouse does not get a ring they did not ask for while a child
+ * on a keyboard can always see where they are.
+ */
+.kb-menu-open:focus-visible,
+.kb-menu-row:focus-visible {
+  outline: 2px solid var(--kb-accent);
+  outline-offset: 2px;
+}
+
+/**
+ * The popup hangs off the trailing edge of the opener and every offset here is
+ * LOGICAL, so under Hebrew the whole thing — the popup, its submenus, the
+ * arrow that points at them — mirrors with no second stylesheet.
+ */
+.kb-menu-pop {
+  position: absolute;
+  inset-block-start: calc(100% + 0.375rem);
+  inset-inline-end: 0;
+  z-index: 40;
+}
+
+.kb-menu {
+  min-inline-size: 12.5rem;
+  /* Never wider than the window, however narrow the window gets. */
+  max-inline-size: min(20rem, calc(100vw - 1.5rem));
+  padding: 0.25rem;
+  background: var(--kb-panel);
+  border: 1px solid var(--kb-border);
+  border-radius: 5px;
+  /* A hard offset shadow, not a soft blur: this is a plate sitting on the
+     machine, not a floating web dropdown. */
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.28);
+  text-align: start;
+}
+
+/**
+ * A LEVEL WITH SUBMENUS IN IT MUST NOT SCROLL.
+ *
+ * `overflow-y: auto` makes a scroll container, and a scroll container clips
+ * every absolutely-positioned descendant — so a level that could scroll would
+ * swallow each submenu the moment it opened. `Menu` marks the leaf lists, and
+ * only they get a cap and a scrollbar: the palette list on Omarchy is
+ * twenty-two rows and needs one, and has no submenus of its own to lose.
+ */
+.kb-menu[data-kb-scrolls="true"] {
+  max-block-size: min(66vh, 26rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.kb-menu-slot { position: relative; }
+
+.kb-menu-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+  /* Letterforms given room. */
+  padding: 0.375rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--kb-plain);
+  font: inherit;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  text-align: start;
+  cursor: pointer;
+}
+
+.kb-menu-row:hover,
+.kb-menu-row[data-kb-active="true"],
+.kb-menu-row[aria-expanded="true"] {
+  background: var(--kb-accent);
+  color: var(--kb-bg);
+  border-color: var(--kb-accent);
+}
+
+.kb-menu-label { flex: 1 1 auto; min-inline-size: 0; }
+
+/**
+ * The current answer, shown on the parent row. This is what makes two
+ * submenus better than one flat list with headings in it: a child can read
+ * which machine and which colours are on without opening either.
+ */
+.kb-menu-value {
+  color: var(--kb-dim);
+  font-size: 0.8125em;
+  max-inline-size: 7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kb-menu-row:hover .kb-menu-value,
+.kb-menu-row[data-kb-active="true"] .kb-menu-value,
+.kb-menu-row[aria-expanded="true"] .kb-menu-value { color: inherit; opacity: 0.8; }
+
+/* Mirrored under Hebrew along with the popup it points at. */
+.kb-menu-arrow { transform: scaleX(1); }
+[dir="rtl"] .kb-menu-arrow { transform: scaleX(-1); }
+
+.kb-menu-check { color: inherit; }
+
+/* Keeps the label column aligned on rows with no icon and no check. */
+.kb-menu-gap { inline-size: 1em; flex: none; }
+
+.kb-menu-sep {
+  block-size: 0;
+  margin: 0.25rem 0.375rem;
+  border-block-start: 1px solid var(--kb-border);
+}
+
+/* A line to READ. The arrows skip it, so the highlight never lands here. */
+.kb-menu-note {
+  padding: 0.3125rem 0.5rem;
+  color: var(--kb-dim);
+  font-size: 0.8125rem;
+}
+
+/**
+ * A submenu opens to the side, on the inline-START edge of its parent row —
+ * that is, back TOWARDS the middle of the window.
+ *
+ * Not a preference: this popup always hangs off the trailing edge of a title
+ * bar, so a submenu opening the other way opens straight off the edge of the
+ * frame and is clipped. Every desktop menu near a screen edge does the same
+ * thing. Logical properties throughout, so under Hebrew the popup hangs off
+ * the other edge and its submenus open the other way with no second rule.
+ */
+.kb-menu-sub {
+  position: absolute;
+  inset-block-start: -0.25rem;
+  inset-inline-end: 100%;
+  z-index: 1;
+  padding-inline-end: 0.125rem;
+}
+
+/**
+ * WHEN THE CHROME IS UNDER THE PICTURE, THE MENU OPENS UPWARD.
+ *
+ * A television and a monitor put their badge and their controls on the bottom
+ * moulding, which is where those two frames put the settings menu — and a
+ * popup that drops downward from a strip at the foot of the screen opens
+ * straight off the bottom edge and is clipped by the frame. `Window` marks
+ * those slots; everything below is the same menu, hung from the other edge.
+ *
+ * The submenus flip with it: anchored to the bottom of the parent row rather
+ * than the top, so a long list grows up the screen instead of off it.
+ */
+.kb-win-menu { display: inline-flex; }
+
+[data-kb-menu-up] .kb-menu-pop {
+  inset-block-start: auto;
+  inset-block-end: calc(100% + 0.375rem);
+}
+
+[data-kb-menu-up] .kb-menu-sub {
+  inset-block-start: auto;
+  inset-block-end: -0.25rem;
+}
+
+/* ---- the game picker --------------------------------------------------- */
+
+/**
+ * Shift, Shift. An ncurses list in the middle of the screen.
+ *
+ * The scrim is dim rather than black: what is behind it is the child's own
+ * transcript and the game they were playing, and blacking it out would say
+ * they had left. Each machine dresses the box itself — see the four
+ * `[data-kb-system]` blocks in the shells' own stylesheets.
+ */
+.kb-picker-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: color-mix(in srgb, var(--kb-bg) 78%, transparent);
+}
+
+.kb-picker {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 14rem;
+  max-inline-size: min(26rem, 100%);
+  max-block-size: 100%;
+  background: var(--kb-bg);
+  border: 2px solid var(--kb-accent);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 0.3);
+  outline: none;
+}
+
+.kb-picker-title {
+  padding: 0.4375rem 0.75rem;
+  border-block-end: 1px solid var(--kb-border);
+  color: var(--kb-accent);
+  font-size: 0.8125rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.kb-picker-list {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.375rem 0;
+}
+
+.kb-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.1875rem 0.75rem;
+  color: var(--kb-plain);
+  cursor: pointer;
+}
+
+/* The highlight INVERTS, which is the one thing every curses list does. */
+.kb-picker-row[data-kb-active="true"] {
+  background: var(--kb-accent);
+  color: var(--kb-bg);
+}
+
+.kb-picker-mark { inline-size: 1ch; flex: none; }
+.kb-picker-word { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* The one already chosen, at the trailing edge — a check in whatever ink the
+   row is currently wearing, which on the highlighted row is the ground. Pushed
+   there by the margin rather than by a spacer, so a row with no check has no
+   empty cell to explain. */
+.kb-picker-check { margin-inline-start: auto; flex: none; opacity: 0.85; }
+
+/* ---- the games, as a shelf ---------------------------------------------
+ *
+ * THE ONE LIST THAT IS NOT A LIST. Every game has a picture — the very one on
+ * the front of its cartridge — and a six-year-old who cannot read chooses by
+ * picture. So the games are tiles with the drawing on them, and the word stays
+ * underneath for the child who is learning to read.
+ *
+ * `auto-fill` rather than a column count, and the box is allowed to be wide:
+ * the shelf is as many across as the playground has room for, which on a phone
+ * is two and on a desktop is five. Nothing here names a physical side, so
+ * under Hebrew the shelf fills from the other edge with no override.
+ */
+/* A DEFINITE width, not merely a cap: the scrim centres the box, so a box
+   that only had a maximum would shrink to its content and the auto-fill grid
+   would lay out the one column it could prove it needed. The shelf is meant
+   to use the room it has. */
+[data-kb-tiles] {
+  inline-size: min(46rem, 100%);
+  max-inline-size: min(46rem, 100%);
+}
+
+[data-kb-tiles] .kb-picker-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.5rem;
+  padding: 0.625rem;
+}
+
+.kb-picker-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.375rem 0.375rem;
+  border: 1px solid var(--kb-border);
+  border-radius: 4px;
+  color: var(--kb-plain);
+  cursor: pointer;
+}
+
+/* The highlight INVERTS, exactly as the row's does: one behaviour, two
+   layouts. The border goes with it, so the lit tile is a solid object rather
+   than a filled box with somebody else's edge still on it. */
+.kb-picker-tile[data-kb-active="true"] {
+  background: var(--kb-accent);
+  border-color: var(--kb-accent);
+  color: var(--kb-bg);
+}
+
+/**
+ * THE DRAWING ON A TILE.
+ *
+ * Half-blocks, so the picture is TEXT — the same rows a cart's label is drawn
+ * with in the transcript, in the machine's own typeface and its one ink. Not a
+ * canvas and not an image: this playground draws with characters, and a tile
+ * that broke that rule would be the one picture on screen that could not be
+ * selected, copied, or read by anything that reads text.
+ *
+ * `line-height: 1` because half-blocks stack: any leading at all opens a gap
+ * through the middle of the drawing.
+ */
+.kb-tile-art {
+  display: block;
+  white-space: pre;
+  line-height: 1;
+  font-size: 0.75em;
+  min-block-size: 5em;
+  unicode-bidi: isolate;
+}
+
+.kb-picker-hint {
+  padding: 0.375rem 0.75rem;
+  border-block-start: 1px solid var(--kb-border);
+  color: var(--kb-dim);
+  font-size: 0.75rem;
+}
+
+/* ---- the window frames ------------------------------------------------- */
+
+/**
+ * Every machine is drawn inside its own window, and the four could not be
+ * more different — a television, a macOS terminal, a monitor, a tiling
+ * compositor. What they share is only this: the frame fills the Kidboard root
+ * and the machine's own face fills the frame.
+ */
+.kb-win {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+/* -- tv: a Kidtari is plugged into a television set ------------------------ */
+
+.kb-win-tv {
+  padding: 0.5rem;
+  background: var(--kb-surface);
+}
+
+.kb-win-tv-screen {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--kb-bg);
+  /* The picture is INSET in moulded plastic: a dark inner edge, no glow. */
+  border: 3px solid var(--kb-raised);
+  border-radius: 10px / 14px;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.5);
+}
+
+.kb-win-tv-plate {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: none;
+  padding: 0.4375rem 0.625rem 0.1875rem;
+  color: var(--kb-dim);
+}
+
+/* The power lamp. Lit, and it stays lit: nothing on this machine blinks. */
+.kb-win-tv-lamp {
+  inline-size: 0.4375rem;
+  block-size: 0.4375rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--kb-accent);
+  box-shadow: 0 0 6px var(--kb-glow);
+}
+
+.kb-win-tv-mark {
+  font-size: 0.6875rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--kb-dim);
+}
+
+/* -- mac: kid code is a terminal, and a terminal is in a window ----------- */
+
+.kb-win-mac { background: var(--kb-bg); }
+
+.kb-win-mac-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: none;
+  padding: 0.3125rem 0.625rem;
+  background: var(--kb-surface);
+  border-block-end: 1px solid var(--kb-border);
+}
+
+.kb-win-mac-lights { display: inline-flex; gap: 0.375rem; flex: none; }
+
+.kb-win-mac-light {
+  inline-size: 0.6875rem;
+  block-size: 0.6875rem;
+  border-radius: 50%;
+  display: block;
+}
+
+/*
+ * THE ONLY THREE FIXED COLOURS IN THE PROJECT, and they are deliberate.
+ *
+ * A macOS window's lights are red / amber / green everywhere, in every theme a
+ * person has ever set — they are part of the platform, not of the palette, and
+ * a "monochrome traffic light" is not a traffic light. They are also 11px of
+ * scenery that no text is ever read against, so the ground-plus-one-ink rule
+ * that governs the machine's own drawing is not what is at stake here.
+ */
+.kb-win-mac-close { background: #ff5f57; }
+.kb-win-mac-min   { background: #febc2e; }
+.kb-win-mac-zoom  { background: #28c840; }
+
+.kb-win-mac-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-inline-size: 0;
+  max-inline-size: 22rem;
+  padding: 0.1875rem 0.625rem;
+  background: var(--kb-bg);
+  border: 1px solid var(--kb-border);
+  border-radius: 5px;
+  font-size: 0.75rem;
+  color: var(--kb-plain);
+}
+
+.kb-win-mac-star { color: var(--kb-accent); flex: none; }
+
+.kb-win-mac-title {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kb-win-mac-body { flex: 1 1 auto; min-block-size: 0; overflow: hidden; }
+
+/* -- monitor: a Logo machine is a monochrome monitor on a desk ------------ */
+
+.kb-win-monitor {
+  padding: 0.625rem 0.625rem 0.25rem;
+  background: var(--kb-surface);
+}
+
+.kb-win-monitor-glass {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--kb-bg);
+  /* A deep bezel with the glass set into it. No scanlines, no interlace and
+     no fuzz — see the note at the top of `crt.css`. */
+  border: 2px solid var(--kb-raised);
+  border-radius: 14px / 20px;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.55);
+}
+
+.kb-win-monitor-plate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  padding: 0.375rem 0.5rem 0.125rem;
+}
+
+.kb-win-monitor-lamp {
+  inline-size: 0.375rem;
+  block-size: 0.375rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--kb-accent);
+  box-shadow: 0 0 5px var(--kb-glow);
+}
+
+.kb-win-monitor-mark {
+  font-size: 0.625rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--kb-dim);
+}
+
+/* -- tiling: omarchy is hyprland, so it is a bar and a thin border -------- */
+
+.kb-win-tiling {
+  background: var(--kb-bg);
+  border: 1px solid var(--kb-accent);
+  border-radius: 8px;
+}
+
+.kb-win-tiling-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: none;
+  padding: 0.25rem 0.5rem;
+  background: var(--kb-surface);
+  border-block-end: 1px solid var(--kb-border);
+  border-start-start-radius: 7px;
+  border-start-end-radius: 7px;
+  font-size: 0.75rem;
+  color: var(--kb-dim);
+}
+
+.kb-win-tiling-spaces { display: inline-flex; gap: 0.25rem; flex: none; }
+
+.kb-win-tiling-space {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  border-radius: 4px;
+  font-style: normal;
+  font-size: 0.6875rem;
+  color: var(--kb-dim);
+}
+
+.kb-win-tiling-space[data-kb-on="true"] {
+  background: var(--kb-accent);
+  color: var(--kb-bg);
+}
+
+.kb-win-tiling-title {
+  min-inline-size: 0;
+  max-inline-size: 24rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--kb-plain);
+}
+
+.kb-win-tiling-body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  overflow: hidden;
+  border-end-start-radius: 7px;
+  border-end-end-radius: 7px;
+}
+
+/**
+ * The sun on the water. The single hottest point in the picture gets a halo,
+ * and nothing else does — low alpha, no blur on the glyph itself, so it reads
+ * as heat at a squint and changes nothing about legibility up close.
+ */
+.kb-glow { text-shadow: 0 0 10px var(--kb-glow); }
+
+/* A theme's palette, shown rather than named: ground, accent, structure, ink. */
+.kb-swatch {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+  border: 1px solid var(--kb-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.kb-swatch > i { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-menu-open { transition: none; }
+}
+
+/* ---- the kidtari -------------------------------------------------------- */
+
+/**
+ * Upper case is a TRANSFORM, never a mutation: the strings a child scrolls
+ * back through, the souvenirs and everything the resolver sees stay exactly as
+ * they were typed and written. The class is applied only where the chrome is
+ * Latin (`shells/kidtari.tsx` withholds it under Hebrew, which is unicase), and
+ * a canvas is pixels, so no rule can reach a game's own glyphs.
+ *
+ * Art is exempt. A drawing is not prose: `animals` and `memory` line their
+ * grids up out of specific characters, and upper-casing them is a different
+ * picture.
+ */
+.kb-upper { text-transform: uppercase; }
+.kb-upper .kb-art { text-transform: none; }
+
+/**
+ * The cartridge label: the game's name and its keys, printed above the screen
+ * the way they were printed on the cartridge. Ground and ONE ink, inverted —
+ * a sticker, not a status bar, and it exists only while a game does.
+ */
+.kb-kidtari-label {
+  background: var(--kb-accent);
+  color: var(--kb-bg);
+  letter-spacing: 0.14em;
+}
+
+/* A block cursor, where the browser has one. Ignored everywhere else. */
+/* The block caret is `.kb-input`'s now — every machine gets one, and a child
+   can see where their words are going on all four. */
+
+/* ---- this machine's game picker ----------------------------------------
+ *
+ * The Kidtari's box: no radius anywhere, a thick border in the accent, the title
+ * inverted the way the cartridge label above a game is inverted, and upper
+ * case — which is a `text-transform`, exactly as it is everywhere else on this
+ * machine, and never a mutation of a game's own name.
+ */
+[data-kb-system="kidtari"] .kb-picker {
+  border-width: 3px;
+  border-radius: 0;
+}
+
+[data-kb-system="kidtari"] .kb-picker-title {
+  background: var(--kb-accent);
+  color: var(--kb-bg);
+  border-block-end: 0;
+}
+
+[data-kb-system="kidtari"] .kb-picker-word,
+[data-kb-system="kidtari"] .kb-menu-label { text-transform: uppercase; }
+
+[data-kb-system="kidtari"] .kb-menu,
+[data-kb-system="kidtari"] .kb-menu-row,
+[data-kb-system="kidtari"] .kb-picker-tile,
+[data-kb-system="kidtari"] .kb-picker-row { border-radius: 0; }
+
+[data-kb-system="kidtari"] .kb-menu { border-width: 2px; }

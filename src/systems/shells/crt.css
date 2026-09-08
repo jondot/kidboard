@@ -1,0 +1,150 @@
+/* ---- the crt machine -------------------------------------------------
+ *
+ * Owned by the crt shell (`src/systems/shells/crt.tsx`). Imported from
+ * `src/styles.css`, so Kidboard is still ONE stylesheet to an embedder.
+ *
+ * Logical properties only — `margin-inline-start`, never `margin-left`. The
+ * playground reads right-to-left in Hebrew and a physical direction is a bug
+ * there; `chrome.invariants.test.ts` enforces this across every sheet.
+ *
+ * ONE SCREEN, SPLIT. The tube holds a fixed drawing field and, under it, a
+ * command area a few lines tall that scrolls on its own. Nothing here sets a
+ * typeface: the machine's own face arrives as `--kb-font` on the Kidboard
+ * root and everything inside inherits it. Nothing here invents a colour
+ * either — each phosphor palette is a single ramp, ground plus one ink, and
+ * the halo is that palette's own `--kb-glow`.
+ *
+ * AND NOTHING HERE MOVES. A flickering tube is period-accurate and worse to
+ * read, and the child it is worst for is exactly the child this is built for.
+ * There is no motion to gate behind `prefers-reduced-motion` because there is
+ * no motion.
+ *
+ * NO RASTER EFFECTS EITHER, and this is a deletion rather than an omission.
+ * There was a full-tube overlay drawing scanlines and a vignette over
+ * everything — a repeating gradient laying a dark line across every third
+ * pixel row, and the corners falling away. Both are FAULTS of a cathode ray
+ * tube being reproduced as decoration, and the fault they reproduce best is
+ * the one that makes small text hard to read: a six-year-old's letters, at 22
+ * pixels, with a dark band through the middle of every line of them, and their
+ * own drawing dimmed at the edges of the screen. Imitating the machine is the
+ * point; imitating the thing that was wrong with the machine is not.
+ *
+ * What actually makes a phosphor machine a phosphor machine is all still here
+ * and none of it is a filter: one ink on one ground, one typeface, a halo the
+ * colour of the ink, and a picture that stays on the glass after the game
+ * ends.
+ */
+
+/** The glass: the field and the command area, on one ground. */
+.kb-crt-tube {
+  position: relative;
+  background: var(--kb-bg);
+  /*
+   * PHOSPHOR. A halo, not a blur: `--kb-glow` is this theme's accent at low
+   * alpha, so the green tube glows green and the amber one amber, and the
+   * glyph itself stays exactly as sharp as it was.
+   */
+  text-shadow: 0 0 6px var(--kb-glow);
+}
+
+/**
+ * The field. A permanent drawing area: it never scrolls, and what a game left
+ * behind stays glowing on it until something else is drawn.
+ */
+.kb-crt-field {
+  padding-block: 0.75rem 0.5rem;
+  /* 1rem a side, matching the command area — the column count a game is
+     handed is measured off that box, and two different insets would hand it
+     a width the field does not have. */
+  padding-inline: 1rem;
+  border-block-end: 1px solid var(--kb-border);
+  /*
+   * NO AMBIENT BLOOM. There was a radial wash of the palette's halo across the
+   * whole field — "the tube is on" — and it is the same mistake as the
+   * scanlines in a softer form: a haze laid over a child's drawing, brightest
+   * in the middle, so the same picture read differently depending where on the
+   * screen it was. The tube says it is on by having one ink lit on one ground,
+   * which it does.
+   */
+  /* The field is a fixed box, so a game inside it has to fit it rather than
+     push it open. Everything below is what makes that true. */
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+/**
+ * A TALL GAME IN A SHORT TUBE.
+ *
+ * A game's cell size is chosen from a WIDTH — that is what `layout()` takes —
+ * so on a laptop every 30x1 cartridge asks for about 510px of height and the
+ * field, which is a fixed fraction of one screen, has less. The court was
+ * being clipped top and bottom, and because `stage.ts` centres horizontally
+ * only there was no vertical margin to give up first.
+ *
+ * `object-fit: contain` on the canvas is the whole fix, and it is the right
+ * one rather than a patch: a canvas is a replaced element, so this scales the
+ * WHOLE picture down uniformly and letterboxes it. Cells stay square — which
+ * is the thing that must not break — and the only cost is that on a short
+ * screen the game is drawn a little smaller than its cell size asked for.
+ * A game rendered slightly soft is a game; a game with its top and bottom cut
+ * off is not.
+ *
+ * Scoped to this machine because it is this machine's problem: every other
+ * one grows its transcript and scrolls.
+ */
+.kb-crt-field canvas {
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  object-fit: contain;
+}
+
+/** Help, on the screen itself, at the foot of the field. */
+.kb-crt-hints {
+  color: var(--kb-dim);
+  padding-block-start: 0.5rem;
+}
+
+/**
+ * The command area: a few lines and the prompt, and the only thing on this
+ * machine that scrolls. Its height is written in lines rather than pixels, so
+ * it is the same handful of lines whatever the type is set at, and it is
+ * capped in case the whole tube is short — the field is the larger part, and
+ * on a phone it must stay so.
+ *
+ * `overscroll-behavior: contain` because Kidboard is embeddable: reaching the
+ * top of six lines of scrollback must never start scrolling the host page.
+ */
+.kb-crt-command {
+  block-size: calc(6 * var(--kb-line-height, 1.25) * 1em);
+  max-block-size: 45%;
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+/* A block cursor, where the browser has one. Ignored everywhere else. */
+/* The block caret moved to `.kb-input` in `styles.css`: it is not this
+   machine's alone any more, because a hairline caret is hard for a six-year-old
+   to find on any of the four. */
+
+/* ---- this machine's game picker ----------------------------------------
+ *
+ * A tube has no rounded popups and no drop shadows — it has a box drawn in the
+ * one ink it owns, which is exactly what a curses list on this machine looked
+ * like. Square corners, a double-weight border, and the halo everything else
+ * on the glass already carries. */
+[data-kb-system="crt"] .kb-picker {
+  border-width: 2px;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: 0 0 6px var(--kb-glow);
+}
+
+[data-kb-system="crt"] .kb-menu {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-kb-system="crt"] .kb-menu-row,
+[data-kb-system="crt"] .kb-picker-row { border-radius: 0; }

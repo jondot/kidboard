@@ -1,0 +1,9 @@
+{
+  "blocks.move": "slide",
+  "blocks.turn": "turn it",
+  "blocks.drop": "hurry it",
+  "blocks.souvenir.none": "the well is still empty and the first block is still falling!",
+  "blocks.souvenir.stacked": "you built something down there. it is your shape, nobody else's.",
+  "blocks.souvenir.row": "you filled a whole row and watched it vanish. that never gets old.",
+  "blocks.souvenir.many": "row after row, gone. you are properly good at fitting things in."
+}

@@ -1,0 +1,13 @@
+{
+  "snake.move": "לנווט",
+  "snake.souvenir": "אכלתם את {fruit}!",
+  "snake.souvenir.none": "הנחש עדיין רעב — הפרי מחכה!",
+  "snake.fruit.strawberry": "התות",
+  "snake.fruit.apple": "התפוח",
+  "snake.fruit.banana": "הבננה",
+  "snake.fruit.grapes": "הענבים",
+  "snake.fruit.cherries": "הדובדבנים",
+  "snake.fruit.watermelon": "האבטיח",
+  "snake.fruit.orange": "התפוז",
+  "snake.fruit.pear": "האגס"
+}

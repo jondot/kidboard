@@ -1,0 +1,14 @@
+{
+  "rhyme.ask": "what rhymes with {word}?",
+  "rhyme.yes": "{a} and {b} — they rhyme!",
+  "rhyme.more": "want another word? type more!",
+  "rhyme.same": "that's the very same word!",
+  "rhyme.hmm": "ooh, {word}! say it right after {prompt} and listen.",
+  "rhyme.hmm.b": "{word}! try saying {word} and {prompt} one after the other.",
+  "rhyme.howto": "any word at all will do!",
+  "rhyme.answer": "a rhyme",
+  "rhyme.pair": "{a} and {b}",
+  "rhyme.souvenir": "{list} rhyme!",
+  "rhyme.souvenir.more": "{list} rhyme — and more!",
+  "rhyme.souvenir.none": "the rhymes are still hiding — every word has one waiting!"
+}

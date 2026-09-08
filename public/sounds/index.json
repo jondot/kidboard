@@ -1,0 +1,4 @@
+{
+  "//": "Which voices have a recording here. Empty means every voice is synthesised, which is the shipped state. Add a name when you add its .wav beside this file.",
+  "voices": []
+}

@@ -1,0 +1,5 @@
+{
+  "maze.move": "walk",
+  "maze.souvenir": "you found the way home!",
+  "maze.souvenir.none": "the maze is still a puzzle — home is waiting around a corner!"
+}

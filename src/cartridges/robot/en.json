@@ -1,0 +1,13 @@
+{
+  "robot.add": "add a step",
+  "robot.run": "run it",
+  "robot.undo": "take one back",
+  "robot.then": "then",
+  "robot.dir.up": "up",
+  "robot.dir.down": "down",
+  "robot.dir.left": "left",
+  "robot.dir.right": "right",
+  "robot.souvenir.none": "your robot is waiting for a plan!",
+  "robot.souvenir.walk": "your robot went {steps}!",
+  "robot.souvenir.star": "your robot went {steps} and found the star!"
+}

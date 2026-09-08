@@ -1,0 +1,11 @@
+{
+  "story.ask.animal": "give me an animal!",
+  "story.ask.color": "now a color!",
+  "story.ask.food": "and a food!",
+  "story.title": "the {color} {animal} and the {food}",
+  "story.line1": "once there was a {color} {animal}.",
+  "story.line2": "the {animal} was very hungry, so it ate all the {food}.",
+  "story.line3": "and then it fell asleep and dreamed about more {food}. the end!",
+  "story.more": "type anything for another story!",
+  "story.answer": "answer"
+}

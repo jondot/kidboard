@@ -1,0 +1,13 @@
+{
+  "snake.move": "steer",
+  "snake.souvenir": "you ate {fruit}!",
+  "snake.souvenir.none": "the snake is still hungry — the fruit is waiting!",
+  "snake.fruit.strawberry": "the strawberry",
+  "snake.fruit.apple": "the apple",
+  "snake.fruit.banana": "the banana",
+  "snake.fruit.grapes": "the grapes",
+  "snake.fruit.cherries": "the cherries",
+  "snake.fruit.watermelon": "the watermelon",
+  "snake.fruit.orange": "the orange",
+  "snake.fruit.pear": "the pear"
+}

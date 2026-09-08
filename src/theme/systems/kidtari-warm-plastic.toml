@@ -1,0 +1,38 @@
+# kidtari · warm plastic — the console itself, not its output.
+#
+# Four switches, a woodgrain fascia and beige plastic. The ground is the
+# walnut, the ink is the plastic, and the accent is the red-orange of the
+# logo silkscreened across the front.
+mode = "dark"
+
+accent = "#e0651e"
+selection = "#5a3a20"
+muted = "#a07a4e"
+
+background = "#2e1c10"
+dark_background = "#20130a"
+darker_background = "#140c06"
+lighter_background = "#4a2c17"
+
+foreground = "#e8d5b0"
+dark_foreground = "#bd9c6e"
+light_foreground = "#f2e5cc"
+bright_foreground = "#fff6e6"
+
+red = "#e0651e"
+yellow = "#e8d5b0"
+orange = "#e0651e"
+green = "#d8c49c"
+cyan = "#c4ae86"
+blue = "#bd9c6e"
+magenta = "#f2e5cc"
+brown = "#a07a4e"
+
+bright_red = "#f07d34"
+bright_yellow = "#f2e5cc"
+bright_orange = "#f07d34"
+bright_green = "#e8d5b0"
+bright_cyan = "#d8c49c"
+bright_blue = "#c4ae86"
+bright_magenta = "#fff6e6"
+bright_brown = "#bd9c6e"
